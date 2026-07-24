@@ -1,0 +1,739 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Manual do Carro Elétrico · Turbi</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Sora:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+:root{
+  /* ===== Tokens Turbi ===== */
+  --brand-color-primary: rgba(54,195,255,1);
+  --brand-color-primary-light: rgba(201,241,254,1);
+  --brand-color-primary-medium: rgba(148,227,252,1);
+  --brand-color-primary-dark: rgba(94,213,251,1);
+  --brand-color-secondary: rgba(36,29,183,1);
+  --brand-color-secondary-light: rgba(240,247,255,1);
+  --brand-color-secondary-medium: rgba(49,40,255,1);
+  --brand-color-secondary-dark: rgba(0,0,93,1);
+  --highlight-color-primary: rgba(119,90,218,1);
+  --highlight-color-primary-light: rgba(229,229,246,1);
+  --neutral-color-low: rgba(27,27,27,1);
+  --neutral-color-low-light: rgba(205,205,205,1);
+  --neutral-color-low-medium: rgba(82,82,82,1);
+  --neutral-color-high: rgba(255,255,255,1);
+  --neutral-color-high-dark: rgba(242,242,242,1);
+  --feedback-color-error: rgba(190,50,50,1);
+  --feedback-color-error-light: rgba(249,229,229,1);
+  --feedback-color-check: rgba(36,159,132,1);
+  --feedback-color-check-light: rgba(221,237,233,1);
+  --feedback-color-alert: rgba(255,176,0,1);
+  --feedback-color-alert-light: rgba(255,239,188,1);
+  --shadow-level-1: 0px 4px 16px rgba(54,54,54,0.05);
+  --shadow-level-2: 0px 8px 16px rgba(54,54,54,0.08);
+  --shadow-level-3: 0px 2px 20px rgba(54,54,54,0.16);
+
+  /* ===== Semântica ===== */
+  --font:'Sora',system-ui,sans-serif;
+  --line:rgba(0,0,93,.10);
+  --fs-hero:clamp(28px,4.4vw,48px);
+  --fs-h2:clamp(21px,2.5vw,30px);
+  --fs-h3:clamp(15px,1.5vw,18px);
+  --fs-body:clamp(14px,1.2vw,16px);
+  --fs-small:clamp(13px,1.05vw,15px);
+  --fs-micro:clamp(11px,.85vw,12px);
+  --radius:16px;
+}
+*{margin:0;padding:0;box-sizing:border-box}
+html{scroll-behavior:smooth;scroll-padding-top:96px}
+@media (prefers-reduced-motion:reduce){html{scroll-behavior:auto}*{transition:none!important;animation:none!important}}
+body{font-family:var(--font);font-size:var(--fs-body);line-height:1.6;color:var(--neutral-color-low);background:var(--neutral-color-high)}
+.wrap{max-width:1120px;margin:0 auto;padding:0 20px}
+@media(min-width:768px){.wrap{padding:0 40px}}
+
+/* ================= Topbar ================= */
+.topbar{position:sticky;top:0;z-index:60;background:rgba(255,255,255,.88);backdrop-filter:blur(14px);-webkit-backdrop-filter:blur(14px);border-bottom:1px solid var(--line)}
+.topbar-inner{display:flex;align-items:center;justify-content:center;gap:12px;max-width:1120px;margin:0 auto;padding:16px 20px 18px}
+@media(min-width:768px){.topbar-inner{padding:18px 40px 20px}}
+.logo{font-weight:700;font-size:20px;color:var(--brand-color-secondary-dark);letter-spacing:-.5px}
+.logo span{color:var(--brand-color-primary)}
+.tag-ev{font-size:var(--fs-micro);font-weight:600;text-transform:uppercase;letter-spacing:.1em;color:var(--brand-color-secondary);border:1px solid var(--brand-color-primary-medium);padding:4px 12px;border-radius:99px}
+.chips{display:flex;gap:6px;overflow-x:auto;max-width:1120px;margin:0 auto;padding:0 20px 10px;scrollbar-width:none}
+.chips::-webkit-scrollbar{display:none}
+@media(min-width:768px){.chips{padding:0 40px 12px}}
+.chips a{flex:0 0 auto;font-size:var(--fs-small);font-weight:500;color:var(--neutral-color-low-medium);padding:8px 14px;border-radius:99px;text-decoration:none;white-space:nowrap;border:1px solid transparent;transition:all .2s}
+.chips a:hover{color:var(--brand-color-secondary);background:var(--brand-color-secondary-light)}
+.chips a.active{color:var(--brand-color-secondary);border-color:var(--brand-color-primary-medium);background:var(--brand-color-secondary-light)}
+
+/* ================= Hero ================= */
+.hero{background:var(--brand-color-secondary-dark);color:var(--neutral-color-high);position:relative;overflow:hidden}
+.hero::before{content:'';position:absolute;inset:0;background-image:linear-gradient(rgba(148,227,252,.07) 1px,transparent 1px),linear-gradient(90deg,rgba(148,227,252,.07) 1px,transparent 1px);background-size:48px 48px;mask-image:radial-gradient(ellipse 90% 80% at 50% 0%,#000 30%,transparent 75%)}
+.hero::after{content:'';position:absolute;width:600px;height:600px;border-radius:50%;background:radial-gradient(circle,rgba(54,195,255,.2) 0%,transparent 65%);top:-240px;right:-160px;pointer-events:none}
+.hero-inner{position:relative;z-index:1;display:grid;gap:36px;padding:48px 0 52px;align-items:center}
+@media(min-width:900px){.hero-inner{grid-template-columns:1.05fr .95fr;gap:48px;padding:72px 0 80px}}
+.hero-txt{max-width:720px}
+.hero-car{justify-self:center;width:min(420px,88%)}
+@media(min-width:900px){.hero-car{width:100%;max-width:520px;justify-self:end}}
+.hero-car img{width:100%;height:auto;display:block;filter:drop-shadow(0 26px 44px rgba(0,0,20,.55))}
+.hero-eyebrow{font-size:var(--fs-micro);font-weight:600;text-transform:uppercase;letter-spacing:.18em;color:var(--brand-color-primary);margin-bottom:16px;display:flex;align-items:center;gap:10px}
+.hero-eyebrow::before{content:'';width:28px;height:1px;background:var(--brand-color-primary)}
+.hero h1{font-size:var(--fs-hero);font-weight:700;line-height:1.14;letter-spacing:-.02em;margin-bottom:16px}
+.hero h1 em{font-style:normal;color:var(--brand-color-primary)}
+.hero p{color:var(--brand-color-primary-light);max-width:50ch}
+.hero-meta{display:flex;flex-wrap:wrap;gap:10px;margin-top:26px}
+.hero-meta span{font-size:var(--fs-micro);font-weight:500;letter-spacing:.04em;border:1px solid rgba(148,227,252,.35);color:var(--brand-color-primary-medium);border-radius:99px;padding:7px 14px}
+
+/* ================= Seções ================= */
+main{background:linear-gradient(180deg,var(--neutral-color-high) 0%,var(--brand-color-secondary-light) 8%,var(--brand-color-secondary-light) 100%)}
+section{padding:52px 0 12px}
+@media(min-width:900px){section{padding:72px 0 16px}}
+.sec-head{max-width:640px;margin-bottom:26px}
+.eyebrow{font-size:var(--fs-micro);font-weight:600;text-transform:uppercase;letter-spacing:.16em;color:var(--highlight-color-primary);margin-bottom:8px;display:flex;align-items:center;gap:10px}
+.eyebrow::before{content:'';width:22px;height:1px;background:var(--highlight-color-primary)}
+h2{font-size:var(--fs-h2);font-weight:700;color:var(--brand-color-secondary-dark);line-height:1.22;letter-spacing:-.01em;margin-bottom:8px}
+.lead{color:var(--neutral-color-low-medium);font-size:var(--fs-small)}
+h3{font-size:var(--fs-h3);font-weight:600;color:var(--brand-color-secondary-dark);margin-bottom:8px}
+
+.grid2{display:grid;gap:16px}
+@media(min-width:768px){.grid2{grid-template-columns:1fr 1fr}}
+
+.card{background:var(--neutral-color-high);border:1px solid var(--line);border-radius:var(--radius);padding:clamp(18px,2.2vw,28px);box-shadow:var(--shadow-level-1)}
+.card p{margin-bottom:10px}.card p:last-child{margin-bottom:0}
+
+/* ===== Placeholder de ilustração ===== */
+.ph{border:1.5px dashed var(--brand-color-primary-dark);background:var(--brand-color-secondary-light);border-radius:12px;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:6px;text-align:center;padding:14px;color:var(--brand-color-secondary);min-height:120px}
+.ph .icon{font-size:22px;opacity:.7}
+.ph small{font-size:var(--fs-micro);font-weight:500;line-height:1.45;max-width:26ch}
+.ph.sq{aspect-ratio:4/3}
+.ph.wide{aspect-ratio:16/7;min-height:150px}
+
+/* ===== Passo a passo visual ===== */
+.steps-v{display:grid;gap:14px;margin-top:14px}
+@media(min-width:768px){.steps-v{grid-template-columns:repeat(3,1fr)}}
+.step{background:var(--neutral-color-high);border:1px solid var(--line);border-radius:var(--radius);padding:14px;box-shadow:var(--shadow-level-1);display:flex;flex-direction:column;gap:12px}
+.step .txt{display:flex;gap:10px;align-items:flex-start}
+.step .n{font-weight:700;font-size:var(--fs-small);color:var(--brand-color-primary-dark);font-variant-numeric:tabular-nums;letter-spacing:.04em;margin-top:1px}
+.step p{font-size:var(--fs-small);line-height:1.55}
+
+/* ===== Diferenciais ===== */
+.dif-grid{display:grid;gap:16px}
+@media(min-width:700px){.dif-grid{grid-template-columns:1fr 1fr}}
+@media(min-width:1050px){.dif-grid{grid-template-columns:repeat(3,1fr)}.dif-grid .dif:nth-child(4),.dif-grid .dif:nth-child(5){grid-column:span 1}}
+.dif{background:var(--neutral-color-high);border:1px solid var(--line);border-radius:var(--radius);padding:18px;box-shadow:var(--shadow-level-1);display:flex;flex-direction:column;gap:12px}
+.dif .num{font-size:var(--fs-micro);font-weight:700;letter-spacing:.14em;color:var(--brand-color-primary-dark)}
+.dif h3{margin-bottom:0}
+.dif p{font-size:var(--fs-small);color:var(--neutral-color-low-medium)}
+
+/* ===== Destaque: 3 sensações ===== */
+.sensacoes{margin-top:16px;background:var(--brand-color-secondary-dark);border-radius:var(--radius);padding:clamp(20px,2.6vw,32px);color:var(--neutral-color-high);position:relative;overflow:hidden}
+.sensacoes::before{content:'';position:absolute;inset:0;background-image:linear-gradient(rgba(148,227,252,.07) 1px,transparent 1px),linear-gradient(90deg,rgba(148,227,252,.07) 1px,transparent 1px);background-size:48px 48px;mask-image:radial-gradient(ellipse 90% 100% at 50% 0%,#000 25%,transparent 80%)}
+.sensacoes>*{position:relative}
+.sensacoes h3{color:var(--neutral-color-high);margin-bottom:4px}
+.sensacoes .sub{font-size:var(--fs-small);color:var(--brand-color-primary-light);margin-bottom:16px}
+.sens-grid{display:grid;gap:14px}
+@media(min-width:768px){.sens-grid{grid-template-columns:repeat(3,1fr)}.sens-grid.two{grid-template-columns:repeat(2,1fr)}}
+.sens-grid+.sens-grid{margin-top:14px}
+.sens{background:rgba(255,255,255,.06);border:1px solid rgba(148,227,252,.25);border-radius:12px;padding:14px;display:flex;flex-direction:column;gap:12px}
+.sens b{font-size:var(--fs-small);color:var(--brand-color-primary)}
+.sens p{font-size:var(--fs-small);color:var(--brand-color-primary-light);line-height:1.55}
+.sens-note{font-size:var(--fs-small);color:var(--brand-color-primary-light);margin-top:16px;border-top:1px solid rgba(148,227,252,.2);padding-top:14px}
+.ph.dark{background:rgba(255,255,255,.05);border-color:rgba(148,227,252,.5);color:var(--brand-color-primary-light)}
+
+/* ===== Tutorial compacto (abrir) ===== */
+.mini-steps{display:grid;gap:10px;background:var(--neutral-color-high);border:1px solid var(--line);border-radius:var(--radius);padding:16px;box-shadow:var(--shadow-level-1);margin-top:12px}
+@media(min-width:700px){.mini-steps{grid-template-columns:repeat(3,1fr);gap:16px}}
+.mini{display:flex;gap:12px;align-items:flex-start}
+.mini .mi{flex:0 0 40px;height:40px;border-radius:12px;background:var(--brand-color-secondary-light);border:1px solid var(--brand-color-primary-medium);display:flex;align-items:center;justify-content:center;font-size:16px;font-weight:700;color:var(--brand-color-secondary)}
+.mini p{font-size:var(--fs-small);line-height:1.5}
+
+.logo-svg{height:22px;width:auto;display:block}
+.label-svg{height:18px;width:auto;display:block}
+.callout .ic{width:36px;height:36px}
+.callout .ic svg.tl-ic{width:36px;height:36px;display:block;border-radius:50%;box-shadow:var(--shadow-level-1)}
+/* callouts */
+.callout{border-radius:12px;padding:13px 15px;font-size:var(--fs-small);margin:14px 0 0;display:flex;gap:10px;line-height:1.55;border:1px solid transparent}
+.callout .ic{flex:0 0 auto}
+.callout.check{background:var(--feedback-color-check-light);border-color:rgba(36,159,132,.25)}
+.callout.alert{background:var(--feedback-color-alert-light);border-color:rgba(255,176,0,.35)}
+.callout.error{background:var(--feedback-color-error-light);border-color:rgba(190,50,50,.22)}
+.callout.info{background:var(--brand-color-primary-light);border-color:rgba(54,195,255,.35)}
+.badge-def{display:inline-block;font-size:var(--fs-micro);font-weight:600;text-transform:uppercase;letter-spacing:.07em;background:var(--feedback-color-alert-light);color:#8a6100;border:1px dashed var(--feedback-color-alert);padding:3px 10px;border-radius:99px;margin-left:8px;vertical-align:middle}
+
+/* sons */
+.sound-grid{display:grid;gap:14px;grid-template-columns:1fr}
+@media(min-width:600px){.sound-grid{grid-template-columns:1fr 1fr}}
+@media(min-width:1000px){.sound-grid{grid-template-columns:repeat(4,1fr)}}
+.sound{background:var(--neutral-color-high);border:1px solid var(--line);border-radius:var(--radius);padding:18px;box-shadow:var(--shadow-level-1);display:flex;flex-direction:column}
+
+.sound b{font-size:var(--fs-small);color:var(--brand-color-secondary-dark);margin-bottom:6px}
+.sound p{font-size:var(--fs-small);color:var(--neutral-color-low-medium);flex:1}
+.sound .ok{align-self:flex-start;margin-top:12px;font-size:var(--fs-micro);font-weight:600;color:var(--feedback-color-check);border:1px solid rgba(36,159,132,.35);padding:3px 12px;border-radius:99px}
+
+/* pode/evite */
+.duo{display:grid;gap:16px;margin-top:16px}
+@media(min-width:768px){.duo{grid-template-columns:1fr 1fr}}
+.duo ul{list-style:none}
+.duo li{padding:7px 0 7px 28px;position:relative;font-size:var(--fs-small)}
+.duo .yes li::before{content:'✓';position:absolute;left:0;top:7px;color:var(--feedback-color-check);font-weight:700}
+.duo .no li::before{content:'✕';position:absolute;left:0;top:7px;color:var(--feedback-color-error);font-weight:700}
+
+/* accordions */
+.acc{display:grid;gap:10px}
+@media(min-width:900px){.acc{grid-template-columns:1fr 1fr;align-items:start}}
+details{background:var(--neutral-color-high);border:1px solid var(--line);border-radius:14px;box-shadow:var(--shadow-level-1);overflow:hidden}
+summary{cursor:pointer;list-style:none;padding:17px 20px;font-weight:600;font-size:var(--fs-small);color:var(--brand-color-secondary-dark);display:flex;justify-content:space-between;align-items:center;gap:12px;min-height:56px}
+summary::-webkit-details-marker{display:none}
+summary::after{content:'+';font-size:22px;font-weight:400;color:var(--brand-color-primary-dark);transition:transform .2s;flex:0 0 auto}
+details[open] summary::after{transform:rotate(45deg)}
+details .body{padding:0 20px 18px;font-size:var(--fs-small);color:var(--neutral-color-low-medium)}
+details .body p{margin-bottom:8px}
+details .body ol{margin:6px 0 6px 18px}
+details .body li{margin-bottom:6px}
+details .body a{color:var(--brand-color-secondary-medium)}
+
+/* suporte */
+.suporte{background:var(--brand-color-secondary-dark);color:var(--neutral-color-high);border-radius:24px;padding:clamp(30px,4vw,52px);text-align:center;position:relative;overflow:hidden;margin-top:10px}
+.suporte::before{content:'';position:absolute;inset:0;background-image:linear-gradient(rgba(148,227,252,.07) 1px,transparent 1px),linear-gradient(90deg,rgba(148,227,252,.07) 1px,transparent 1px);background-size:48px 48px;mask-image:radial-gradient(ellipse 80% 100% at 50% 100%,#000 20%,transparent 80%)}
+.suporte>*{position:relative}
+.suporte h2{color:var(--neutral-color-high)}
+.suporte .path{display:inline-block;font-weight:600;font-size:var(--fs-small);border:1px solid rgba(148,227,252,.4);border-radius:99px;padding:11px 22px;margin-top:16px}
+.suporte p{font-size:var(--fs-small);color:var(--brand-color-primary-light);margin-top:14px;max-width:52ch;margin-left:auto;margin-right:auto}
+
+footer{text-align:center;padding:38px 20px 50px;font-size:var(--fs-micro);color:var(--neutral-color-low-medium);background:var(--brand-color-secondary-light)}
+
+#toTop{position:fixed;right:18px;bottom:18px;width:48px;height:48px;border-radius:50%;border:1px solid var(--brand-color-primary-medium);background:var(--neutral-color-high);color:var(--brand-color-secondary);font-size:18px;cursor:pointer;box-shadow:var(--shadow-level-3);opacity:0;pointer-events:none;transition:opacity .25s}
+#toTop.show{opacity:1;pointer-events:auto}
+</style>
+</head>
+<body>
+
+<div class="topbar">
+  <div class="topbar-inner">
+    <svg class="logo-svg" role="img" aria-label="Turbi" width="340" height="102" viewBox="0 0 340 102" fill="none" xmlns="http://www.w3.org/2000/svg">
+<g clip-path="url(#clip0_1723_11012)">
+<path d="M334.995 0C337.352 0.633333 338.863 1.99833 339.53 4.095C340.195 6.195 339.78 9.045 339.885 11.33C340.07 15.38 339.215 18.42 335.27 19.62C335.121 19.6631 334.966 19.685 334.81 19.685H322.775C322.652 19.685 322.529 19.6665 322.41 19.63C319.4 18.7067 317.843 16.6217 317.74 13.375C317.72 12.735 317.753 10.3617 317.84 6.255C317.91 2.96833 319.492 0.883333 322.585 0H334.995Z" fill="#241DB7"/>
+<path d="M334.846 102H317.766C317.739 79.2466 317.741 56.4933 317.771 33.74C317.771 33.0833 317.766 32.675 317.756 32.515C317.546 28.92 319.816 25.34 323.721 25.32C328.724 25.2933 332.274 25.3033 334.371 25.35C336.681 25.4 338.526 27.42 339.301 29.575C339.557 30.2883 339.687 31.595 339.691 33.495C339.701 49.4083 339.686 69.93 339.646 95.06C339.639 98.65 338.039 100.963 334.846 102Z" fill="#241DB7"/>
+<path d="M232.945 1.43496C233.235 1.2783 233.543 1.19996 233.87 1.19996C239.806 1.15996 244.975 1.15663 249.375 1.18996C251.99 1.20996 252.44 3.01996 252.435 5.38496C252.418 17.705 252.415 24.1533 252.425 24.73C252.425 24.8357 252.443 24.9407 252.48 25.04C252.906 26.1666 253.621 26.7333 254.625 26.74C260.375 26.78 264.641 26.7766 267.425 26.73C273.018 26.64 277.135 26.89 279.775 27.48C293.725 30.6 304.035 41.55 306.24 55.7C306.45 57.04 306.563 59.005 306.58 61.595C306.6 64.515 306.581 66.4833 306.525 67.5C305.47 86.16 289.985 100 271.14 99.515C268.12 99.435 264.385 99.695 261.31 99.29C246.655 97.34 235.255 87.02 232.025 72.595C231.511 70.3016 231.266 66.805 231.29 62.105C231.333 52.4783 231.336 33.2383 231.3 4.38496C231.296 3.0083 231.845 2.02496 232.945 1.43496ZM254.795 45.305C253.36 45.305 252.4 46.41 252.415 47.885C252.435 50.1216 252.431 55.68 252.405 64.56C252.398 67.1766 252.58 69.04 252.95 70.15C254.335 74.285 257.165 77.195 261.245 78.61C262.568 79.0666 264.533 79.2816 267.14 79.255C270.113 79.225 272.105 79.2033 273.115 79.19C278.285 79.135 282.85 75.69 284.73 70.85C285.293 69.3966 285.548 67.23 285.495 64.35C285.478 63.3466 285.465 61.1483 285.455 57.755C285.445 52.53 281.795 47.855 276.98 46.055C275.453 45.485 273.106 45.2316 269.94 45.295C268.266 45.3283 263.218 45.3316 254.795 45.305Z" fill="#241DB7"/>
+<path d="M163.445 99.0698C163.383 99.0698 163.323 99.0451 163.279 99.001C163.235 98.9569 163.21 98.8972 163.21 98.8348C163.227 78.6382 163.225 67.8098 163.205 66.3498C163.125 61.0332 163.357 57.1515 163.9 54.7048C167.68 37.6798 181.93 25.4798 199.35 25.3448C207.33 25.2815 212.607 25.2748 215.18 25.3248C216.647 25.3548 217.847 25.9765 218.78 27.1898C219.35 27.9332 219.603 29.2782 219.54 31.2248C219.483 33.0448 219.483 36.2848 219.54 40.9448C219.563 43.0382 219.318 44.4415 218.805 45.1548C217.938 46.3548 216.672 46.9682 215.005 46.9948C211.528 47.0515 207.402 47.0498 202.625 46.9898C199.172 46.9465 196.568 47.2048 194.815 47.7648C190.2 49.2398 186.7 52.5798 185.26 57.3298C184.907 58.4932 184.727 60.5398 184.72 63.4698C184.717 67.6965 184.698 77.2615 184.665 92.1648C184.658 94.6482 184.452 96.2415 184.045 96.9448C183.202 98.4115 181.808 99.1282 179.865 99.0948C179.425 99.0882 173.952 99.0798 163.445 99.0698Z" fill="#241DB7"/>
+<path d="M115.11 77.8149C117.25 77.8149 118.362 77.8133 118.445 77.8099C124.73 77.6299 129.72 72.9849 129.735 66.6199C129.749 60.0133 129.78 47.8266 129.83 30.0599C129.83 29.9968 129.837 29.9348 129.85 29.8749C130.27 27.9349 131.474 26.7499 133.46 26.3199C133.487 26.3133 133.512 26.3099 133.535 26.3099L147.195 26.3049C147.342 26.3049 147.488 26.3234 147.63 26.3599C149.467 26.7933 150.62 27.9649 151.09 29.8749C151.114 29.9679 151.125 30.0637 151.125 30.1599C151.112 52.2566 151.12 64.1833 151.15 65.9399C151.237 71.1999 150.987 74.9733 150.4 77.2599C147.335 89.2249 137.795 97.8299 125.625 99.3499C122.595 99.7249 118.55 99.5599 115.115 99.5649C111.675 99.5649 107.63 99.7299 104.605 99.3499C92.4305 97.8349 82.8855 89.2349 79.8205 77.2699C79.2305 74.9833 78.9788 71.2099 79.0655 65.9499C79.0955 64.1933 79.1005 52.2666 79.0805 30.1699C79.0805 30.0737 79.0922 29.9779 79.1155 29.8849C79.5855 27.9749 80.7371 26.8033 82.5705 26.3699C82.7132 26.3334 82.8594 26.3149 83.0055 26.3149H96.6655C96.6886 26.3149 96.7139 26.3183 96.7405 26.3249C98.7305 26.7549 99.9355 27.9399 100.355 29.8799C100.369 29.9398 100.375 30.0018 100.375 30.0649C100.429 47.8316 100.464 60.0183 100.48 66.6249C100.495 72.9899 105.49 77.6349 111.775 77.8099C111.859 77.8133 112.97 77.8149 115.11 77.8149Z" fill="#241DB7"/>
+<path d="M0 40.2501V29.8201C0.145 25.4051 3.025 24.7701 6.975 24.9101C8.69167 24.9701 10.4033 24.9735 12.11 24.9201C12.1489 24.9188 12.1858 24.9025 12.2128 24.8745C12.2399 24.8465 12.255 24.8091 12.255 24.7701C12.2417 14.3468 12.2467 8.05181 12.27 5.88514C12.315 2.12014 14.92 0.98514 18.445 1.17014C18.475 1.17014 22.0533 1.17514 29.18 1.18514C31.07 1.18514 32.3167 1.41014 32.92 1.86014C34.465 3.01014 34.89 4.33514 34.88 6.42014C34.86 10.8651 35.48 15.3751 32.945 19.3001C31.0483 22.2335 28.4167 24.0301 25.05 24.6901C25.0458 24.6922 25.0422 24.6954 25.0397 24.6994C25.0372 24.7033 25.0359 24.7079 25.0359 24.7126C25.0359 24.7173 25.0372 24.7219 25.0397 24.7259C25.0422 24.7299 25.0458 24.7331 25.05 24.7351C25.7633 24.8585 26.3833 24.9218 26.91 24.9251C31.19 24.9451 41.9517 24.9451 59.195 24.9251C61.96 24.9201 63.86 25.4851 64.68 28.0651C64.7431 28.2577 64.7817 28.4559 64.795 28.6551C64.7983 28.7285 64.8117 32.2535 64.835 39.2301C64.8417 41.1968 64.645 42.4635 64.245 43.0301C63.1 44.6501 61.825 45.1401 59.68 45.1301C58.36 45.1268 50.5717 45.1235 36.315 45.1201C34.945 45.1201 33.66 45.4751 33.645 47.0151C33.6017 52.3851 33.5633 58.7385 33.53 66.0751C33.5133 69.6118 33.7633 71.9485 34.28 73.0851C35.1367 74.9751 36.6033 76.4001 38.68 77.3601C39.8367 77.8935 41.84 78.1235 44.69 78.0501C45.2467 78.0368 50.0417 78.0318 59.075 78.0351C60.955 78.0351 62.2 78.2435 62.81 78.6601C64.41 79.7501 64.85 81.0701 64.83 83.1601C64.8033 86.2735 64.8117 88.5101 64.855 89.8701C64.925 92.1168 64.23 93.8751 62.77 95.1451C61.9667 95.8451 60.4683 96.4168 58.275 96.8601C53.2917 97.8635 50.515 98.4218 49.945 98.5351C43.995 99.7251 38.0433 99.2201 32.09 97.0201C21.4733 93.0935 15.0817 85.9085 12.915 75.4651C12.495 73.4285 12.2867 70.3635 12.29 66.2701C12.3067 55.7635 12.2783 49.3001 12.205 46.8801C12.16 45.4501 10.94 45.0651 9.59 45.0601C5.515 45.0501 0.285 46.1251 0 40.2501Z" fill="#241DB7"/>
+</g>
+<defs>
+<clipPath id="clip0_1723_11012">
+<rect width="340" height="102" fill="white"/>
+</clipPath>
+</defs>
+</svg>
+    <svg class="label-svg" role="img" aria-label="Elétrico" width="73" height="16" viewBox="0 0 73 16" fill="none" xmlns="http://www.w3.org/2000/svg">
+<path d="M0 4C0 1.79086 1.79086 0 4 0H65.6093C67.8184 0 69.6093 1.79086 69.6093 4V12C69.6093 14.2091 67.8184 16 65.6093 16H3.99999C1.79086 16 0 14.2091 0 12V4Z" fill="#DDEDE9"/>
+<path d="M8.25098 3.60352C8.52921 3.6038 8.75468 3.83014 8.75488 4.1084C8.75488 4.38683 8.52934 4.61299 8.25098 4.61328H6.16602C5.5314 4.70726 5.0939 5.16616 5.00977 5.81348V10.1689C5.11284 10.7909 5.40137 11.1281 5.86523 11.2939L5.98242 11.3271C6.12054 11.3578 6.32276 11.3806 6.60254 11.3838C7.20041 11.3907 7.80316 11.3903 8.41016 11.3838H8.41699L10.4541 11.3867C11.6408 11.3847 12.8246 11.3852 14.0049 11.3867C14.4203 11.3875 14.6859 11.3714 14.833 11.3506L14.9424 11.3281C15.5336 11.148 15.948 10.6158 15.9912 9.96875C16.0021 9.80509 16.0038 9.38999 15.9932 8.69824C15.9891 8.43904 15.943 8.19904 15.8555 7.97559L15.7539 7.75684C15.6947 7.64698 15.4854 7.39311 15.0459 6.9668H15.0449C14.3827 6.32313 13.7189 5.67932 13.0537 5.03516C12.8076 4.79679 12.4954 4.65124 12.0898 4.61035C11.8126 4.58247 11.6108 4.33483 11.6387 4.05762C11.6669 3.78086 11.9136 3.57871 12.1904 3.60645C12.7995 3.66777 13.3303 3.89869 13.7549 4.30957H13.7559C14.4215 4.95413 15.0855 5.5991 15.748 6.24316L16.0469 6.54102C16.3244 6.82745 16.5344 7.07753 16.6426 7.27832C16.8756 7.7107 16.9942 8.18182 17.002 8.68262C17.0124 9.36153 17.0122 9.82171 16.998 10.0352C16.9329 11.0136 16.332 11.872 15.4219 12.2295L15.2354 12.2939C14.9722 12.3738 14.5355 12.3974 14.0039 12.3965H10.4531L8.41504 12.3936V12.3926C7.80265 12.3991 7.19437 12.3996 6.59082 12.3926C6.28175 12.389 5.99825 12.3645 5.75488 12.3096L5.52539 12.2441C4.65464 11.9328 4.15242 11.2436 4.00586 10.2949C4.00197 10.2696 4.00001 10.2433 4 10.2178V5.7832C4.00003 5.7644 4.00179 5.74525 4.00391 5.72656C4.13046 4.61532 4.92526 3.75594 6.06543 3.6084C6.08668 3.60566 6.10846 3.60353 6.12988 3.60352H8.25098Z" fill="#02775E"/>
+<path d="M7.99778 7.92337H9.71176L8.80778 10.3806C8.68935 10.693 9.01397 10.8599 9.22029 10.6051L11.9748 7.15893C12.0264 7.09525 12.0537 7.03454 12.0537 6.96478C12.0537 6.84958 11.9657 6.75846 11.8384 6.75846H10.1213L11.0284 4.30127C11.1436 3.98882 10.822 3.82198 10.6157 4.07981L7.86136 7.5229C7.80958 7.58969 7.7793 7.65039 7.7793 7.71705C7.7793 7.83536 7.87029 7.92337 7.99778 7.92337Z" fill="#02775E"/>
+<path d="M20.4431 11.5V4.93H21.8831V11.5H20.4431ZM21.7031 11.5V10.276H24.5741V11.5H21.7031ZM21.7031 8.773V7.549H24.3671V8.773H21.7031ZM21.7031 6.154V4.93H24.5111V6.154H21.7031ZM25.7868 11.5V4.93H27.2628V11.5H25.7868ZM27.0828 11.5V10.204H29.8368V11.5H27.0828ZM30.8054 11.5V4.93H32.2454V11.5H30.8054ZM32.0654 11.5V10.276H34.9364V11.5H32.0654ZM32.0654 8.773V7.549H34.7294V8.773H32.0654ZM32.0654 6.154V4.93H34.8734V6.154H32.0654ZM32.0744 4.435L33.1994 2.824H34.7474L33.4514 4.435H32.0744ZM37.4541 11.5V6.037H38.9301V11.5H37.4541ZM35.6091 6.217V4.93H40.7841V6.217H35.6091ZM41.7126 11.5V4.876H43.1886V11.5H41.7126ZM45.6996 11.5L43.7736 8.674H45.3936L47.4096 11.5H45.6996ZM42.7926 9.394V8.233H44.4126C44.6286 8.233 44.8146 8.191 44.9706 8.107C45.1326 8.017 45.2556 7.894 45.3396 7.738C45.4296 7.576 45.4746 7.39 45.4746 7.18C45.4746 6.97 45.4296 6.787 45.3396 6.631C45.2556 6.469 45.1326 6.346 44.9706 6.262C44.8146 6.172 44.6286 6.127 44.4126 6.127H42.7926V4.876H44.2956C44.8416 4.876 45.3156 4.96 45.7176 5.128C46.1196 5.29 46.4286 5.533 46.6446 5.857C46.8606 6.181 46.9686 6.589 46.9686 7.081V7.225C46.9686 7.711 46.8576 8.116 46.6356 8.44C46.4196 8.758 46.1106 8.998 45.7086 9.16C45.3126 9.316 44.8416 9.394 44.2956 9.394H42.7926ZM48.3048 11.5V4.93H49.7808V11.5H48.3048ZM54.2901 11.671C53.6961 11.671 53.1861 11.569 52.7601 11.365C52.3341 11.155 51.9861 10.882 51.7161 10.546C51.4461 10.204 51.2451 9.838 51.1131 9.448C50.9871 9.052 50.9241 8.668 50.9241 8.296V8.098C50.9241 7.69 50.9901 7.288 51.1221 6.892C51.2541 6.49 51.4551 6.127 51.7251 5.803C52.0011 5.479 52.3461 5.221 52.7601 5.029C53.1801 4.831 53.6751 4.732 54.2451 4.732C54.8391 4.732 55.3641 4.843 55.8201 5.065C56.2761 5.287 56.6391 5.596 56.9091 5.992C57.1851 6.382 57.3471 6.841 57.3951 7.369H55.9101C55.8681 7.105 55.7721 6.88 55.6221 6.694C55.4721 6.508 55.2771 6.364 55.0371 6.262C54.8031 6.16 54.5391 6.109 54.2451 6.109C53.9511 6.109 53.6901 6.16 53.4621 6.262C53.2341 6.364 53.0421 6.508 52.8861 6.694C52.7361 6.88 52.6191 7.102 52.5351 7.36C52.4571 7.612 52.4181 7.894 52.4181 8.206C52.4181 8.512 52.4571 8.794 52.5351 9.052C52.6191 9.304 52.7391 9.526 52.8951 9.718C53.0571 9.904 53.2551 10.048 53.4891 10.15C53.7231 10.246 53.9901 10.294 54.2901 10.294C54.7461 10.294 55.1301 10.183 55.4421 9.961C55.7601 9.739 55.9521 9.433 56.0181 9.043H57.4941C57.4401 9.523 57.2781 9.964 57.0081 10.366C56.7441 10.762 56.3811 11.08 55.9191 11.32C55.4631 11.554 54.9201 11.671 54.2901 11.671ZM61.6234 11.671C61.0294 11.671 60.5104 11.569 60.0664 11.365C59.6284 11.155 59.2654 10.882 58.9774 10.546C58.6894 10.204 58.4734 9.835 58.3294 9.439C58.1914 9.043 58.1224 8.662 58.1224 8.296V8.098C58.1224 7.69 58.1944 7.288 58.3384 6.892C58.4884 6.49 58.7104 6.127 59.0044 5.803C59.2984 5.479 59.6644 5.221 60.1024 5.029C60.5404 4.831 61.0474 4.732 61.6234 4.732C62.1994 4.732 62.7064 4.831 63.1444 5.029C63.5824 5.221 63.9484 5.479 64.2424 5.803C64.5364 6.127 64.7584 6.49 64.9084 6.892C65.0584 7.288 65.1334 7.69 65.1334 8.098V8.296C65.1334 8.662 65.0614 9.043 64.9174 9.439C64.7734 9.835 64.5574 10.204 64.2694 10.546C63.9814 10.882 63.6154 11.155 63.1714 11.365C62.7334 11.569 62.2174 11.671 61.6234 11.671ZM61.6234 10.294C61.9354 10.294 62.2144 10.24 62.4604 10.132C62.7124 10.024 62.9254 9.874 63.0994 9.682C63.2794 9.49 63.4144 9.268 63.5044 9.016C63.5944 8.764 63.6394 8.494 63.6394 8.206C63.6394 7.9 63.5914 7.621 63.4954 7.369C63.4054 7.111 63.2704 6.889 63.0904 6.703C62.9164 6.511 62.7064 6.364 62.4604 6.262C62.2144 6.16 61.9354 6.109 61.6234 6.109C61.3114 6.109 61.0324 6.16 60.7864 6.262C60.5404 6.364 60.3274 6.511 60.1474 6.703C59.9734 6.889 59.8414 7.111 59.7514 7.369C59.6614 7.621 59.6164 7.9 59.6164 8.206C59.6164 8.494 59.6614 8.764 59.7514 9.016C59.8414 9.268 59.9734 9.49 60.1474 9.682C60.3274 9.874 60.5404 10.024 60.7864 10.132C61.0324 10.24 61.3114 10.294 61.6234 10.294Z" fill="#02775E"/>
+<path d="M69.6094 4H70.6094C71.7139 4 72.6094 4.89543 72.6094 6V10C72.6094 11.1046 71.7139 12 70.6094 12H69.6094V4Z" fill="#DDEDE9"/>
+</svg>
+  </div>
+  <nav class="chips" id="chips">
+    <a href="#diferenciais">Diferenciais</a>
+    <a href="#abrir">Abrir e ligar</a>
+    <a href="#sons">Sons normais</a>
+    <a href="#bateria">Bateria</a>
+    <a href="#recarga">Recarga</a>
+    <a href="#imprevistos">Imprevistos</a>
+    <a href="#faq">Dúvidas</a>
+    <a href="#suporte">Suporte</a>
+  </nav>
+</div>
+
+<header class="hero" id="inicio">
+  <div class="wrap">
+    <div class="hero-inner">
+      <div class="hero-txt">
+      <div class="hero-eyebrow">Manual do carro elétrico</div>
+      <h1>Seu BYD Dolphin,<br><em>sem mistério.</em></h1>
+      <p>Ele não faz barulho ao ligar, não tem tanque e "abastece" na tomada. Em 5 minutos você está pronto pra rodar.</p>
+      <div class="hero-meta">
+        <span>100% elétrico</span>
+        <span>Zero gasolina</span>
+        <span>Suporte 24/7 no app</span>
+      </div>
+    </div>
+      <div class="hero-car"><img src="data:image/webp;base64,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" alt="BYD Dolphin cinza" width="533" height="374" loading="eager"></div>
+    </div>
+  </div>
+</header>
+
+<main>
+<div class="wrap">
+
+<!-- ============ DIFERENCIAIS ============ -->
+<section id="diferenciais">
+  <div class="sec-head">
+    <div class="eyebrow">Antes de tudo</div>
+    <h2>Principais diferenças do carro</h2>
+    <p class="lead">Conheça estas diferenças e o resto é igual a qualquer automático.</p>
+  </div>
+
+  <div class="dif-grid">
+    <div class="dif">
+      <span class="num">01</span>
+      <h3>Ele é extremamente silencioso</h3>
+      <div class="ph sq"><span class="icon">🖼</span><small>Ilustração: carro ligado em silêncio, com a luz READY acesa no painel</small></div>
+      <p>Com o motor ligado, o carro <b>não faz barulho nenhum</b>. Nada de ronco: quem avisa que ele está pronto é a luz <b style="color:var(--feedback-color-check)">READY</b> no painel.</p>
+    </div>
+
+    <div class="dif">
+      <span class="num">02</span>
+      <h3>Bateria no lugar do combustível</h3>
+      <div class="ph sq"><span class="icon">🖼</span><small>Ilustração: close legível do painel com % de bateria (SoC) e autonomia em km</small></div>
+      <p>Dois números guiam sua viagem: a <b>% de bateria</b> e a <b>autonomia em km</b>. É o seu novo ponteiro de combustível, e recarregar é conectar um cabo, não parar em posto.</p>
+    </div>
+
+    <div class="dif">
+      <span class="num">03</span>
+      <h3>Alavanca e botões no painel central</h3>
+      <div class="ph sq"><span class="icon">🖼</span><small>Ilustração: painel central com a alavanca seletora (R, N, D), o botão P e o botão do freio de mão</small></div>
+      <p>O "câmbio" é uma <b>alavanca seletora</b> e o freio de mão é um <b>botão</b>, os dois no <b>painel central</b> do carro. Detalhe: o P (estacionar) também é um botão.</p>
+    </div>
+  </div>
+
+  <div class="sensacoes">
+    <h3>Sensações diferentes</h3>
+    <p class="sub">O jeito de dirigir é igual a um automático. O que muda é o que você sente:</p>
+    <div class="sens-grid">
+      <div class="sens">
+        <b>1. Anda sozinho devagar</b>
+        <p>Em D ou R, sem pé no freio, o carro se move lentamente e em silêncio. É normal: pé no freio quando parado.</p>
+      </div>
+      <div class="sens">
+        <b>2. Resposta imediata</b>
+        <p>Sem trocas de marcha: pisou, andou. Vá com suavidade nas primeiras aceleradas.</p>
+      </div>
+      <div class="sens">
+        <b>3. "Segura" ao soltar o acelerador</b>
+        <p>É o freio regenerativo recarregando a bateria. Não é defeito, e ainda aumenta sua autonomia.</p>
+      </div>
+    </div>
+    <p class="sens-note"><b>Bônus em São Paulo:</b> carros elétricos são isentos do rodízio. Pode rodar todos os dias.</p>
+  </div>
+</section>
+
+<!-- ============ ABRIR E LIGAR ============ -->
+<section id="abrir">
+  <div class="sec-head">
+    <div class="eyebrow">Primeiros passos</div>
+    <h2>Abrir e ligar</h2>
+    <p class="lead">A primeira abertura é pelo app. Depois, a chave física é sua companheira até a devolução.</p>
+  </div>
+
+  <h3>Abrir o carro</h3>
+  <div class="mini-steps">
+    <div class="mini"><div class="mi">1</div><p><b>1ª vez:</b> destrave pelo <b>app da Turbi</b>, com Bluetooth ligado, ao lado do carro.</p></div>
+    <div class="mini"><div class="mi">2</div><p>Pegue a <b>chave no porta-luvas</b> e use-a durante todo o aluguel.</p></div>
+    <div class="mini"><div class="mi">3</div><p>Na devolução, deixe a chave <b>de volta no porta-luvas</b>.</p></div>
+  </div>
+
+  <h3 style="margin-top:28px">Ligar o carro (não tem "partida")</h3>
+  <p class="lead" style="margin-bottom:4px">Primeira vez num elétrico? Siga com calma, passo a passo. O carro não faz nenhum barulho ao ligar, e isso é normal.</p>
+  <div class="steps-v">
+    <div class="step">
+      <div class="ph"><span class="icon">🖼</span><small>Ilustração: chave saindo do porta-luvas e espaço reservado para ela no painel central</small></div>
+      <div class="txt"><span class="n">01</span><p>Retire a <b>chave do porta-luvas</b> e deixe com você ou no <b>espaço reservado para ela no painel central</b> do carro.</p></div>
+    </div>
+    <div class="step">
+      <div class="ph"><span class="icon">🖼</span><small>Ilustração: motorista colocando o cinto de segurança</small></div>
+      <div class="txt"><span class="n">02</span><p>Coloque o <b>cinto de segurança</b>.</p></div>
+    </div>
+    <div class="step">
+      <div class="ph"><span class="icon">🖼</span><small>Ilustração: pé no freio + botão START/STOP à direita do volante + luz READY acesa no painel</small></div>
+      <div class="txt"><span class="n">03</span><p>Pise no <b>freio</b> e aperte o botão <b>START/STOP</b>, do lado direito do volante. Acendeu <b style="color:var(--feedback-color-check)">READY</b> no painel? O carro está ligado, <b>mesmo em silêncio</b>.</p></div>
+    </div>
+    <div class="step">
+      <div class="ph"><span class="icon">🖼</span><small>Ilustração: mão apertando a alavanca de marcha para baixo até o D (Drive)</small></div>
+      <div class="txt"><span class="n">04</span><p>Sempre <b>pisando no freio</b>, aperte a alavanca de marcha <b>para baixo</b>, mudando para o <b>D (Drive)</b>.</p></div>
+    </div>
+    <div class="step">
+      <div class="ph"><span class="icon">🖼</span><small>Ilustração: carro saindo suavemente da vaga</small></div>
+      <div class="txt"><span class="n">05</span><p>Solte o freio <b>lentamente</b> e aproveite a viagem!</p></div>
+    </div>
+  </div>
+  <div class="callout alert"><span class="ic"><svg class="tl-ic" role="img" aria-label="Atenção" width="48" height="48" viewBox="0 0 48 48" fill="none" xmlns="http://www.w3.org/2000/svg">
+<g>
+<rect width="48" height="48" rx="24" fill="#C9F1FE"/>
+<rect width="48" height="48" rx="24" fill="white"/>
+<path d="M29.9739 35.7546C30.1858 35.7586 30.3217 35.7714 30.3815 35.7928C30.7916 35.9397 30.9976 36.2175 30.9996 36.6261C31.0036 37.5255 31.0058 38.0047 31.006 38.0637C31.0082 38.5632 30.6603 39 30.1401 39C22.0024 38.9997 17.8773 38.9997 17.7651 39C17.7321 39 17.6992 38.9951 17.6676 38.9854C17.3629 38.8929 17.1566 38.7062 17.0487 38.4253C17.0069 38.3162 16.9885 38.1662 16.9937 37.9752C16.9994 37.7596 16.9993 37.3312 16.9933 36.6901C16.9893 36.2755 17.1618 35.9896 17.5108 35.8324C17.6732 35.7593 17.8416 35.7542 18.0146 35.7615C18.018 35.7616 18.0213 35.761 18.0244 35.7598C18.0276 35.7586 18.0304 35.7567 18.0328 35.7544C18.0352 35.752 18.0371 35.7492 18.0384 35.7461C18.0397 35.7429 18.0404 35.7396 18.0404 35.7362V33.26C18.0404 33.2451 18.0345 33.2308 18.0241 33.2201C17.1593 32.3236 16.1595 31.2767 15.0244 30.0795C14.8492 29.8945 14.7462 29.7558 14.7156 29.6633C14.631 29.4077 14.6198 29.1883 14.7491 28.937C14.8536 28.7343 15.0158 28.5911 15.2357 28.5075C15.3563 28.4614 15.5372 28.4409 15.7786 28.4461C16.166 28.4538 16.9152 28.4541 18.0262 28.4469C18.03 28.4469 18.0336 28.4454 18.0363 28.4428C18.0389 28.4401 18.0404 28.4365 18.0404 28.4328V25.3923C18.0404 25.3686 18.0312 25.3456 18.0146 25.3283C17.2369 24.5165 16.2435 23.4723 15.0343 22.1958C14.8679 22.0203 14.764 21.8826 14.7225 21.7827C14.4527 21.1375 14.9368 20.5238 15.6145 20.5263C16.1746 20.5289 16.9777 20.5293 18.0237 20.5276C18.0283 20.5276 18.0328 20.5258 18.0361 20.5225C18.0394 20.5192 18.0413 20.5147 18.0413 20.51V17.5485C18.0413 17.5356 18.0362 17.5231 18.0271 17.5138C17.8144 17.2921 16.8097 16.2351 15.0132 14.3427C14.8612 14.1823 14.7677 14.0631 14.7328 13.9849C14.5129 13.4892 14.7259 12.9116 15.249 12.7256C15.3533 12.6884 15.5009 12.67 15.6919 12.6706C16.9005 12.6732 17.6769 12.6736 18.0211 12.6719C18.0263 12.6719 18.0314 12.6698 18.0351 12.6661C18.0388 12.6624 18.0408 12.6574 18.0408 12.6521V12.0538C18.0409 12.0466 18.0383 12.0396 18.0337 12.034C18.0291 12.0284 18.0226 12.0246 18.0155 12.0233C17.5075 11.9306 17.1957 11.6262 17.08 11.1102C17.0775 11.0982 17.076 11.0861 17.0757 11.0741C17.0749 10.7176 17.0737 10.4784 17.0723 10.3564C17.0686 10.0801 17.0919 9.87563 17.1423 9.74306C17.2712 9.40632 17.5478 9.14518 17.8961 9.04338C17.9955 9.01418 18.1422 8.99972 18.3364 9C20.1085 9.00115 23.9533 9.00129 29.8708 9.00043C29.9971 9.00043 30.1228 9.03107 30.248 9.09235C30.6938 9.31083 30.9193 9.66932 30.9244 10.1678C30.9256 10.2721 30.9241 10.5368 30.9201 10.962C30.9184 11.1759 30.8603 11.3698 30.7458 11.5436C30.5785 11.7978 30.3198 11.9595 29.9696 12.0285C29.9631 12.0298 29.9572 12.0333 29.9529 12.0385C29.9487 12.0437 29.9464 12.0501 29.9464 12.0568V12.6513C29.9464 12.657 29.9487 12.6624 29.9527 12.6665C29.9568 12.6705 29.9622 12.6727 29.9679 12.6727C30.8547 12.6713 31.6924 12.6716 32.481 12.6736C32.5832 12.6739 32.6813 12.6951 32.7752 12.7372C33.1958 12.9267 33.3841 13.2549 33.34 13.7216C33.3208 13.9255 33.2362 14.1059 33.0862 14.2628C32.1057 15.2905 31.0665 16.387 29.9683 17.5524C29.9554 17.5662 29.9481 17.5845 29.9482 17.6035V20.5117C29.9482 20.516 29.9498 20.52 29.9528 20.523C29.9558 20.526 29.9598 20.5276 29.9641 20.5276C31.238 20.5288 32.011 20.5281 32.283 20.5255C32.5066 20.5235 32.6654 20.5419 32.7593 20.5809C33.2614 20.7896 33.48 21.3321 33.279 21.8205C33.2412 21.9132 33.1366 22.0501 32.965 22.2311C31.4904 23.7893 30.4888 24.8452 29.9602 25.3987C29.9525 25.4067 29.9482 25.4174 29.9482 25.4288V28.4216C29.9482 28.4289 29.9511 28.4359 29.9562 28.441C29.9614 28.4462 29.9684 28.4491 29.9756 28.4491C30.987 28.4557 31.7938 28.457 32.3959 28.4529C33.0823 28.4482 33.5419 29.0908 33.2782 29.7363C33.2386 29.8331 33.1423 29.961 32.9891 30.1199C31.9196 31.2294 30.9158 32.2772 29.9778 33.263C29.9588 33.2832 29.9482 33.3096 29.9482 33.3369V35.7284C29.9482 35.7353 29.9509 35.7419 29.9557 35.7468C29.9605 35.7517 29.9671 35.7545 29.9739 35.7546Z" fill="#000037"/>
+<path d="M28.4826 35.715C28.4826 35.7278 28.4776 35.74 28.4685 35.749C28.4595 35.7581 28.4473 35.7631 28.4345 35.7631H19.554C19.5412 35.7631 19.529 35.7581 19.5199 35.749C19.5109 35.74 19.5059 35.7278 19.5059 35.715V12.0636C19.5059 12.0508 19.5109 12.0386 19.5199 12.0296C19.529 12.0206 19.5412 12.0155 19.554 12.0155H28.4345C28.4473 12.0155 28.4595 12.0206 28.4685 12.0296C28.4776 12.0386 28.4826 12.0508 28.4826 12.0636V35.715Z" fill="#454852"/>
+<path d="M23.9956 12.6395C24.8096 12.6395 25.5616 12.8977 26.199 13.3929C26.9949 14.0118 27.5563 14.9752 27.5898 15.9871C27.6018 16.3445 27.5984 16.7328 27.5159 17.103C27.3664 17.7713 27.0636 18.3433 26.6075 18.8189C26.4526 18.9804 26.2301 19.1585 25.94 19.3532C25.4375 19.6911 24.8813 19.8706 24.2714 19.8918C24.2078 19.8938 24.1156 19.8948 23.9948 19.8948C23.874 19.8948 23.7817 19.8937 23.7182 19.8914C23.1083 19.8702 22.5521 19.6907 22.0495 19.3528C21.7595 19.1581 21.537 18.98 21.3821 18.8185C20.9262 18.3426 20.6236 17.7705 20.4741 17.1021C20.3921 16.7319 20.3886 16.3436 20.4006 15.9863C20.4341 14.9743 20.9959 14.011 21.7923 13.3925C22.4292 12.8972 23.1817 12.6395 23.9956 12.6395Z" fill="#000037"/>
+<path d="M27.5777 24.093C27.5576 24.9778 27.2509 25.7741 26.6736 26.4274C26.2355 26.9231 25.6949 27.271 25.0518 27.4711C24.5162 27.6382 23.963 27.6515 23.4424 27.588C22.6487 27.4913 21.8842 27.0579 21.3524 26.4764C20.7086 25.7729 20.3877 24.882 20.4092 23.9294C20.4311 22.9763 20.7928 22.1014 21.4675 21.4279C22.0255 20.8713 22.8089 20.4731 23.6065 20.413C24.1292 20.3735 24.6816 20.4117 25.2086 20.6033C25.8419 20.8326 26.3662 21.2049 26.7814 21.72C27.3282 22.3991 27.5979 23.2087 27.5777 24.093Z" fill="#000037"/>
+<path d="M27.5753 31.8175C27.5538 32.7702 27.1921 33.6447 26.5174 34.3186C25.9594 34.8748 25.1764 35.2725 24.3793 35.3326C23.8565 35.3726 23.3046 35.3339 22.7772 35.1428C22.1441 34.9134 21.6201 34.5412 21.2052 34.0261C20.6584 33.3479 20.3887 32.5383 20.4093 31.6539C20.4295 30.7695 20.7357 29.9732 21.313 29.3204C21.7508 28.8247 22.2913 28.477 22.9344 28.2771C23.4696 28.11 24.0228 28.0967 24.5433 28.1603C25.3366 28.2569 26.1012 28.6898 26.6325 29.271C27.2759 29.9749 27.5972 30.8649 27.5753 31.8175Z" fill="#000037"/>
+<path d="M26.4914 16.3791C26.5445 14.9965 25.4707 13.8328 24.0931 13.7798C22.7154 13.7269 21.5555 14.8049 21.5024 16.1875C21.4493 17.5701 22.5231 18.7339 23.9007 18.7868C25.2784 18.8397 26.4383 17.7618 26.4914 16.3791Z" fill="#CDCDCD"/>
+<path d="M26.486 31.7478C26.486 30.3568 25.3703 29.2291 23.994 29.2291C22.6177 29.2291 21.502 30.3568 21.502 31.7478C21.502 33.1388 22.6177 34.2664 23.994 34.2664C25.3703 34.2664 26.486 33.1388 26.486 31.7478Z" fill="#CDCDCD"/>
+<path d="M23.976 21.5099C25.752 21.4944 26.9744 23.3297 26.303 24.9696C25.9195 25.9055 25.0403 26.5274 24.0202 26.536C23.0005 26.545 22.1102 25.939 21.7107 25.0099C21.0102 23.3821 22.2004 21.5258 23.976 21.5099Z" fill="#FFEA08"/>
+</g>
+<rect x="0.696617" y="0.696617" width="46.6068" height="46.6068" rx="23.3034" stroke="#00003B" stroke-width="1.39323"/>
+
+</svg></span><span>Apareceu <b>"Key is not detected"</b>? A chave está longe demais (porta-luvas, chão). Deixe-a com você e tente de novo.</span></div>
+
+  <h3 style="margin-top:28px">Desligar</h3>
+  <div class="steps-v">
+    <div class="step">
+      <div class="ph"><span class="icon">🖼</span><small>Ilustração: carro parado, pé no freio</small></div>
+      <div class="txt"><span class="n">01</span><p>Pare por completo, pé no freio.</p></div>
+    </div>
+    <div class="step">
+      <div class="ph"><span class="icon">🖼</span><small>Ilustração: dedo apertando o botão P do seletor</small></div>
+      <div class="txt"><span class="n">02</span><p>Aperte o botão <b>P</b> do seletor.</p></div>
+    </div>
+    <div class="step">
+      <div class="ph"><span class="icon">🖼</span><small>Ilustração: botão START/STOP, painel apagando</small></div>
+      <div class="txt"><span class="n">03</span><p>Aperte <b>START/STOP</b>. O freio de estacionamento aciona sozinho.</p></div>
+    </div>
+  </div>
+</section>
+
+<!-- ============ SONS ============ -->
+<section id="sons">
+  <div class="sec-head">
+    <div class="eyebrow">Isso não é defeito</div>
+    <h2>Sons normais do carro</h2>
+    <p class="lead">O elétrico é silencioso, então os poucos sons chamam atenção. Estes quatro são de fábrica:</p>
+  </div>
+
+  <div class="sound-grid">
+    <div class="sound"><b>Zumbido em baixa velocidade</b><p>Som artificial para avisar pedestres. Some quando você acelera.</p><span class="ok">✓ Normal</span></div>
+    <div class="sound"><b>Apito contínuo na ré</b><p>Alerta sonoro externo sempre que a ré está engatada.</p><span class="ok">✓ Normal</span></div>
+    <div class="sound"><b>Ventilador com o carro desligado</b><p>Na recarga, o ventilador pode ligar sozinho para resfriar a bateria.</p><span class="ok">✓ Normal</span></div>
+    <div class="sound"><b>Cliques de trava</b><p>Portas travam sozinhas em movimento. O cabo trava na tomada durante a carga.</p><span class="ok">✓ Normal</span></div>
+  </div>
+</section>
+
+<!-- ============ BATERIA ============ -->
+<section id="bateria">
+  <div class="sec-head">
+    <div class="eyebrow">Seu novo "ponteiro de combustível"</div>
+    <h2>Bateria e autonomia</h2>
+  </div>
+
+  <div class="grid2">
+    <div class="card">
+      <div class="ph wide" style="margin-bottom:12px"><span class="icon">🖼</span><small>Ilustração: close do painel com % de bateria (SoC) e autonomia em km</small></div>
+      <p style="font-size:var(--fs-small)">No painel, dois números substituem o ponteiro de gasolina: a <b>% de bateria</b> (o "tanque") e a <b>autonomia estimada em km</b>. O painel recalcula em tempo real.</p>
+    </div>
+
+    <div class="card">
+      <h3>O que gasta mais bateria</h3>
+      <p style="font-size:var(--fs-small)">Ar-condicionado forte, velocidade alta, acelera-e-freia, subidas e frio.</p>
+      <div class="callout check"><span class="ic"><svg class="tl-ic" role="img" aria-label="Dica" width="48" height="48" viewBox="0 0 48 48" fill="none" xmlns="http://www.w3.org/2000/svg">
+<g>
+<rect width="48" height="48" rx="24" fill="#C9F1FE"/>
+<rect width="48" height="48" rx="24" fill="white"/>
+<path d="M29.9739 35.7546C30.1858 35.7586 30.3217 35.7714 30.3815 35.7928C30.7916 35.9397 30.9976 36.2175 30.9996 36.6261C31.0036 37.5255 31.0058 38.0047 31.006 38.0637C31.0082 38.5632 30.6603 39 30.1401 39C22.0024 38.9997 17.8773 38.9997 17.7651 39C17.7321 39 17.6992 38.9951 17.6676 38.9854C17.3629 38.8929 17.1566 38.7062 17.0487 38.4253C17.0069 38.3162 16.9885 38.1662 16.9937 37.9752C16.9994 37.7596 16.9993 37.3312 16.9933 36.6901C16.9893 36.2755 17.1618 35.9896 17.5108 35.8324C17.6732 35.7593 17.8416 35.7542 18.0146 35.7615C18.018 35.7616 18.0213 35.761 18.0244 35.7598C18.0276 35.7586 18.0304 35.7567 18.0328 35.7544C18.0352 35.752 18.0371 35.7492 18.0384 35.7461C18.0397 35.7429 18.0404 35.7396 18.0404 35.7362V33.26C18.0404 33.2451 18.0345 33.2308 18.0241 33.2201C17.1593 32.3236 16.1595 31.2767 15.0244 30.0795C14.8492 29.8945 14.7462 29.7558 14.7156 29.6633C14.631 29.4077 14.6198 29.1883 14.7491 28.937C14.8536 28.7343 15.0158 28.5911 15.2357 28.5075C15.3563 28.4614 15.5372 28.4409 15.7786 28.4461C16.166 28.4538 16.9152 28.4541 18.0262 28.4469C18.03 28.4469 18.0336 28.4454 18.0363 28.4428C18.0389 28.4401 18.0404 28.4365 18.0404 28.4328V25.3923C18.0404 25.3686 18.0312 25.3456 18.0146 25.3283C17.2369 24.5165 16.2435 23.4723 15.0343 22.1958C14.8679 22.0203 14.764 21.8826 14.7225 21.7827C14.4527 21.1375 14.9368 20.5238 15.6145 20.5263C16.1746 20.5289 16.9777 20.5293 18.0237 20.5276C18.0283 20.5276 18.0328 20.5258 18.0361 20.5225C18.0394 20.5192 18.0413 20.5147 18.0413 20.51V17.5485C18.0413 17.5356 18.0362 17.5231 18.0271 17.5138C17.8144 17.2921 16.8097 16.2351 15.0132 14.3427C14.8612 14.1823 14.7677 14.0631 14.7328 13.9849C14.5129 13.4892 14.7259 12.9116 15.249 12.7256C15.3533 12.6884 15.5009 12.67 15.6919 12.6706C16.9005 12.6732 17.6769 12.6736 18.0211 12.6719C18.0263 12.6719 18.0314 12.6698 18.0351 12.6661C18.0388 12.6624 18.0408 12.6574 18.0408 12.6521V12.0538C18.0409 12.0466 18.0383 12.0396 18.0337 12.034C18.0291 12.0284 18.0226 12.0246 18.0155 12.0233C17.5075 11.9306 17.1957 11.6262 17.08 11.1102C17.0775 11.0982 17.076 11.0861 17.0757 11.0741C17.0749 10.7176 17.0737 10.4784 17.0723 10.3564C17.0686 10.0801 17.0919 9.87563 17.1423 9.74306C17.2712 9.40632 17.5478 9.14518 17.8961 9.04338C17.9955 9.01418 18.1422 8.99972 18.3364 9C20.1085 9.00115 23.9533 9.00129 29.8708 9.00043C29.9971 9.00043 30.1228 9.03107 30.248 9.09235C30.6938 9.31083 30.9193 9.66932 30.9244 10.1678C30.9256 10.2721 30.9241 10.5368 30.9201 10.962C30.9184 11.1759 30.8603 11.3698 30.7458 11.5436C30.5785 11.7978 30.3198 11.9595 29.9696 12.0285C29.9631 12.0298 29.9572 12.0333 29.9529 12.0385C29.9487 12.0437 29.9464 12.0501 29.9464 12.0568V12.6513C29.9464 12.657 29.9487 12.6624 29.9527 12.6665C29.9568 12.6705 29.9622 12.6727 29.9679 12.6727C30.8547 12.6713 31.6924 12.6716 32.481 12.6736C32.5832 12.6739 32.6813 12.6951 32.7752 12.7372C33.1958 12.9267 33.3841 13.2549 33.34 13.7216C33.3208 13.9255 33.2362 14.1059 33.0862 14.2628C32.1057 15.2905 31.0665 16.387 29.9683 17.5524C29.9554 17.5662 29.9481 17.5845 29.9482 17.6035V20.5117C29.9482 20.516 29.9498 20.52 29.9528 20.523C29.9558 20.526 29.9598 20.5276 29.9641 20.5276C31.238 20.5288 32.011 20.5281 32.283 20.5255C32.5066 20.5235 32.6654 20.5419 32.7593 20.5809C33.2614 20.7896 33.48 21.3321 33.279 21.8205C33.2412 21.9132 33.1366 22.0501 32.965 22.2311C31.4904 23.7893 30.4888 24.8452 29.9602 25.3987C29.9525 25.4067 29.9482 25.4174 29.9482 25.4288V28.4216C29.9482 28.4289 29.9511 28.4359 29.9562 28.441C29.9614 28.4462 29.9684 28.4491 29.9756 28.4491C30.987 28.4557 31.7938 28.457 32.3959 28.4529C33.0823 28.4482 33.5419 29.0908 33.2782 29.7363C33.2386 29.8331 33.1423 29.961 32.9891 30.1199C31.9196 31.2294 30.9158 32.2772 29.9778 33.263C29.9588 33.2832 29.9482 33.3096 29.9482 33.3369V35.7284C29.9482 35.7353 29.9509 35.7419 29.9557 35.7468C29.9605 35.7517 29.9671 35.7545 29.9739 35.7546Z" fill="#000037"/>
+<path d="M28.4826 35.715C28.4826 35.7278 28.4776 35.74 28.4685 35.749C28.4595 35.7581 28.4473 35.7631 28.4345 35.7631H19.554C19.5412 35.7631 19.529 35.7581 19.5199 35.749C19.5109 35.74 19.5059 35.7278 19.5059 35.715V12.0636C19.5059 12.0508 19.5109 12.0386 19.5199 12.0296C19.529 12.0206 19.5412 12.0155 19.554 12.0155H28.4345C28.4473 12.0155 28.4595 12.0206 28.4685 12.0296C28.4776 12.0386 28.4826 12.0508 28.4826 12.0636V35.715Z" fill="#454852"/>
+<path d="M23.9956 12.6395C24.8096 12.6395 25.5616 12.8977 26.199 13.3929C26.9949 14.0118 27.5563 14.9752 27.5898 15.9871C27.6018 16.3445 27.5984 16.7328 27.5159 17.103C27.3664 17.7713 27.0636 18.3433 26.6075 18.8189C26.4526 18.9804 26.2301 19.1585 25.94 19.3532C25.4375 19.6911 24.8813 19.8706 24.2714 19.8918C24.2078 19.8938 24.1156 19.8948 23.9948 19.8948C23.874 19.8948 23.7817 19.8937 23.7182 19.8914C23.1083 19.8702 22.5521 19.6907 22.0495 19.3528C21.7595 19.1581 21.537 18.98 21.3821 18.8185C20.9262 18.3426 20.6236 17.7705 20.4741 17.1021C20.3921 16.7319 20.3886 16.3436 20.4006 15.9863C20.4341 14.9743 20.9959 14.011 21.7923 13.3925C22.4292 12.8972 23.1817 12.6395 23.9956 12.6395Z" fill="#000037"/>
+<path d="M27.5777 24.093C27.5576 24.9778 27.2509 25.7741 26.6736 26.4274C26.2355 26.9231 25.6949 27.271 25.0518 27.4711C24.5162 27.6382 23.963 27.6515 23.4424 27.588C22.6487 27.4913 21.8842 27.0579 21.3524 26.4764C20.7086 25.7729 20.3877 24.882 20.4092 23.9294C20.4311 22.9763 20.7928 22.1014 21.4675 21.4279C22.0255 20.8713 22.8089 20.4731 23.6065 20.413C24.1292 20.3735 24.6816 20.4117 25.2086 20.6033C25.8419 20.8326 26.3662 21.2049 26.7814 21.72C27.3282 22.3991 27.5979 23.2087 27.5777 24.093Z" fill="#000037"/>
+<path d="M27.5753 31.8175C27.5538 32.7702 27.1921 33.6447 26.5174 34.3186C25.9594 34.8748 25.1764 35.2725 24.3793 35.3326C23.8565 35.3726 23.3046 35.3339 22.7772 35.1428C22.1441 34.9134 21.6201 34.5412 21.2052 34.0261C20.6584 33.3479 20.3887 32.5383 20.4093 31.6539C20.4295 30.7695 20.7357 29.9732 21.313 29.3204C21.7508 28.8247 22.2913 28.477 22.9344 28.2771C23.4696 28.11 24.0228 28.0967 24.5433 28.1603C25.3366 28.2569 26.1012 28.6898 26.6325 29.271C27.2759 29.9749 27.5972 30.8649 27.5753 31.8175Z" fill="#000037"/>
+<path d="M26.4914 16.3791C26.5445 14.9965 25.4707 13.8328 24.0931 13.7798C22.7154 13.7269 21.5555 14.8049 21.5024 16.1875C21.4493 17.5701 22.5231 18.7339 23.9007 18.7868C25.2784 18.8397 26.4383 17.7618 26.4914 16.3791Z" fill="#CDCDCD"/>
+<path d="M26.486 31.7478C26.486 30.3568 25.3703 29.2291 23.994 29.2291C22.6177 29.2291 21.502 30.3568 21.502 31.7478C21.502 33.1388 22.6177 34.2664 23.994 34.2664C25.3703 34.2664 26.486 33.1388 26.486 31.7478Z" fill="#3EC373"/>
+<path d="M23.976 21.5099C25.752 21.4944 26.9744 23.3297 26.303 24.9696C25.9195 25.9055 25.0403 26.5274 24.0202 26.536C23.0005 26.545 22.1102 25.939 21.7107 25.0099C21.0102 23.3821 22.2004 21.5258 23.976 21.5099Z" fill="#CDCDCD"/>
+</g>
+<rect x="0.696617" y="0.696617" width="46.6068" height="46.6068" rx="23.3034" stroke="#00003B" stroke-width="1.39323"/>
+
+</svg></span><span>Dirigir suave e manter velocidade constante <b>aumenta</b> os km disponíveis.</span></div>
+      <div class="callout alert"><span class="ic"><svg class="tl-ic" role="img" aria-label="Atenção" width="48" height="48" viewBox="0 0 48 48" fill="none" xmlns="http://www.w3.org/2000/svg">
+<g>
+<rect width="48" height="48" rx="24" fill="#C9F1FE"/>
+<rect width="48" height="48" rx="24" fill="white"/>
+<path d="M29.9739 35.7546C30.1858 35.7586 30.3217 35.7714 30.3815 35.7928C30.7916 35.9397 30.9976 36.2175 30.9996 36.6261C31.0036 37.5255 31.0058 38.0047 31.006 38.0637C31.0082 38.5632 30.6603 39 30.1401 39C22.0024 38.9997 17.8773 38.9997 17.7651 39C17.7321 39 17.6992 38.9951 17.6676 38.9854C17.3629 38.8929 17.1566 38.7062 17.0487 38.4253C17.0069 38.3162 16.9885 38.1662 16.9937 37.9752C16.9994 37.7596 16.9993 37.3312 16.9933 36.6901C16.9893 36.2755 17.1618 35.9896 17.5108 35.8324C17.6732 35.7593 17.8416 35.7542 18.0146 35.7615C18.018 35.7616 18.0213 35.761 18.0244 35.7598C18.0276 35.7586 18.0304 35.7567 18.0328 35.7544C18.0352 35.752 18.0371 35.7492 18.0384 35.7461C18.0397 35.7429 18.0404 35.7396 18.0404 35.7362V33.26C18.0404 33.2451 18.0345 33.2308 18.0241 33.2201C17.1593 32.3236 16.1595 31.2767 15.0244 30.0795C14.8492 29.8945 14.7462 29.7558 14.7156 29.6633C14.631 29.4077 14.6198 29.1883 14.7491 28.937C14.8536 28.7343 15.0158 28.5911 15.2357 28.5075C15.3563 28.4614 15.5372 28.4409 15.7786 28.4461C16.166 28.4538 16.9152 28.4541 18.0262 28.4469C18.03 28.4469 18.0336 28.4454 18.0363 28.4428C18.0389 28.4401 18.0404 28.4365 18.0404 28.4328V25.3923C18.0404 25.3686 18.0312 25.3456 18.0146 25.3283C17.2369 24.5165 16.2435 23.4723 15.0343 22.1958C14.8679 22.0203 14.764 21.8826 14.7225 21.7827C14.4527 21.1375 14.9368 20.5238 15.6145 20.5263C16.1746 20.5289 16.9777 20.5293 18.0237 20.5276C18.0283 20.5276 18.0328 20.5258 18.0361 20.5225C18.0394 20.5192 18.0413 20.5147 18.0413 20.51V17.5485C18.0413 17.5356 18.0362 17.5231 18.0271 17.5138C17.8144 17.2921 16.8097 16.2351 15.0132 14.3427C14.8612 14.1823 14.7677 14.0631 14.7328 13.9849C14.5129 13.4892 14.7259 12.9116 15.249 12.7256C15.3533 12.6884 15.5009 12.67 15.6919 12.6706C16.9005 12.6732 17.6769 12.6736 18.0211 12.6719C18.0263 12.6719 18.0314 12.6698 18.0351 12.6661C18.0388 12.6624 18.0408 12.6574 18.0408 12.6521V12.0538C18.0409 12.0466 18.0383 12.0396 18.0337 12.034C18.0291 12.0284 18.0226 12.0246 18.0155 12.0233C17.5075 11.9306 17.1957 11.6262 17.08 11.1102C17.0775 11.0982 17.076 11.0861 17.0757 11.0741C17.0749 10.7176 17.0737 10.4784 17.0723 10.3564C17.0686 10.0801 17.0919 9.87563 17.1423 9.74306C17.2712 9.40632 17.5478 9.14518 17.8961 9.04338C17.9955 9.01418 18.1422 8.99972 18.3364 9C20.1085 9.00115 23.9533 9.00129 29.8708 9.00043C29.9971 9.00043 30.1228 9.03107 30.248 9.09235C30.6938 9.31083 30.9193 9.66932 30.9244 10.1678C30.9256 10.2721 30.9241 10.5368 30.9201 10.962C30.9184 11.1759 30.8603 11.3698 30.7458 11.5436C30.5785 11.7978 30.3198 11.9595 29.9696 12.0285C29.9631 12.0298 29.9572 12.0333 29.9529 12.0385C29.9487 12.0437 29.9464 12.0501 29.9464 12.0568V12.6513C29.9464 12.657 29.9487 12.6624 29.9527 12.6665C29.9568 12.6705 29.9622 12.6727 29.9679 12.6727C30.8547 12.6713 31.6924 12.6716 32.481 12.6736C32.5832 12.6739 32.6813 12.6951 32.7752 12.7372C33.1958 12.9267 33.3841 13.2549 33.34 13.7216C33.3208 13.9255 33.2362 14.1059 33.0862 14.2628C32.1057 15.2905 31.0665 16.387 29.9683 17.5524C29.9554 17.5662 29.9481 17.5845 29.9482 17.6035V20.5117C29.9482 20.516 29.9498 20.52 29.9528 20.523C29.9558 20.526 29.9598 20.5276 29.9641 20.5276C31.238 20.5288 32.011 20.5281 32.283 20.5255C32.5066 20.5235 32.6654 20.5419 32.7593 20.5809C33.2614 20.7896 33.48 21.3321 33.279 21.8205C33.2412 21.9132 33.1366 22.0501 32.965 22.2311C31.4904 23.7893 30.4888 24.8452 29.9602 25.3987C29.9525 25.4067 29.9482 25.4174 29.9482 25.4288V28.4216C29.9482 28.4289 29.9511 28.4359 29.9562 28.441C29.9614 28.4462 29.9684 28.4491 29.9756 28.4491C30.987 28.4557 31.7938 28.457 32.3959 28.4529C33.0823 28.4482 33.5419 29.0908 33.2782 29.7363C33.2386 29.8331 33.1423 29.961 32.9891 30.1199C31.9196 31.2294 30.9158 32.2772 29.9778 33.263C29.9588 33.2832 29.9482 33.3096 29.9482 33.3369V35.7284C29.9482 35.7353 29.9509 35.7419 29.9557 35.7468C29.9605 35.7517 29.9671 35.7545 29.9739 35.7546Z" fill="#000037"/>
+<path d="M28.4826 35.715C28.4826 35.7278 28.4776 35.74 28.4685 35.749C28.4595 35.7581 28.4473 35.7631 28.4345 35.7631H19.554C19.5412 35.7631 19.529 35.7581 19.5199 35.749C19.5109 35.74 19.5059 35.7278 19.5059 35.715V12.0636C19.5059 12.0508 19.5109 12.0386 19.5199 12.0296C19.529 12.0206 19.5412 12.0155 19.554 12.0155H28.4345C28.4473 12.0155 28.4595 12.0206 28.4685 12.0296C28.4776 12.0386 28.4826 12.0508 28.4826 12.0636V35.715Z" fill="#454852"/>
+<path d="M23.9956 12.6395C24.8096 12.6395 25.5616 12.8977 26.199 13.3929C26.9949 14.0118 27.5563 14.9752 27.5898 15.9871C27.6018 16.3445 27.5984 16.7328 27.5159 17.103C27.3664 17.7713 27.0636 18.3433 26.6075 18.8189C26.4526 18.9804 26.2301 19.1585 25.94 19.3532C25.4375 19.6911 24.8813 19.8706 24.2714 19.8918C24.2078 19.8938 24.1156 19.8948 23.9948 19.8948C23.874 19.8948 23.7817 19.8937 23.7182 19.8914C23.1083 19.8702 22.5521 19.6907 22.0495 19.3528C21.7595 19.1581 21.537 18.98 21.3821 18.8185C20.9262 18.3426 20.6236 17.7705 20.4741 17.1021C20.3921 16.7319 20.3886 16.3436 20.4006 15.9863C20.4341 14.9743 20.9959 14.011 21.7923 13.3925C22.4292 12.8972 23.1817 12.6395 23.9956 12.6395Z" fill="#000037"/>
+<path d="M27.5777 24.093C27.5576 24.9778 27.2509 25.7741 26.6736 26.4274C26.2355 26.9231 25.6949 27.271 25.0518 27.4711C24.5162 27.6382 23.963 27.6515 23.4424 27.588C22.6487 27.4913 21.8842 27.0579 21.3524 26.4764C20.7086 25.7729 20.3877 24.882 20.4092 23.9294C20.4311 22.9763 20.7928 22.1014 21.4675 21.4279C22.0255 20.8713 22.8089 20.4731 23.6065 20.413C24.1292 20.3735 24.6816 20.4117 25.2086 20.6033C25.8419 20.8326 26.3662 21.2049 26.7814 21.72C27.3282 22.3991 27.5979 23.2087 27.5777 24.093Z" fill="#000037"/>
+<path d="M27.5753 31.8175C27.5538 32.7702 27.1921 33.6447 26.5174 34.3186C25.9594 34.8748 25.1764 35.2725 24.3793 35.3326C23.8565 35.3726 23.3046 35.3339 22.7772 35.1428C22.1441 34.9134 21.6201 34.5412 21.2052 34.0261C20.6584 33.3479 20.3887 32.5383 20.4093 31.6539C20.4295 30.7695 20.7357 29.9732 21.313 29.3204C21.7508 28.8247 22.2913 28.477 22.9344 28.2771C23.4696 28.11 24.0228 28.0967 24.5433 28.1603C25.3366 28.2569 26.1012 28.6898 26.6325 29.271C27.2759 29.9749 27.5972 30.8649 27.5753 31.8175Z" fill="#000037"/>
+<path d="M26.4914 16.3791C26.5445 14.9965 25.4707 13.8328 24.0931 13.7798C22.7154 13.7269 21.5555 14.8049 21.5024 16.1875C21.4493 17.5701 22.5231 18.7339 23.9007 18.7868C25.2784 18.8397 26.4383 17.7618 26.4914 16.3791Z" fill="#CDCDCD"/>
+<path d="M26.486 31.7478C26.486 30.3568 25.3703 29.2291 23.994 29.2291C22.6177 29.2291 21.502 30.3568 21.502 31.7478C21.502 33.1388 22.6177 34.2664 23.994 34.2664C25.3703 34.2664 26.486 33.1388 26.486 31.7478Z" fill="#CDCDCD"/>
+<path d="M23.976 21.5099C25.752 21.4944 26.9744 23.3297 26.303 24.9696C25.9195 25.9055 25.0403 26.5274 24.0202 26.536C23.0005 26.545 22.1102 25.939 21.7107 25.0099C21.0102 23.3821 22.2004 21.5258 23.976 21.5099Z" fill="#FFEA08"/>
+</g>
+<rect x="0.696617" y="0.696617" width="46.6068" height="46.6068" rx="23.3034" stroke="#00003B" stroke-width="1.39323"/>
+
+</svg></span><span><b>Não deixe chegar perto de zero:</b> o carro perde desempenho. Nível baixo? Reduza o ar e recarregue assim que possível.</span></div>
+    </div>
+  </div>
+</section>
+
+<!-- ============ RECARGA ============ -->
+<section id="recarga">
+  <div class="sec-head">
+    <div class="eyebrow">Adeus, posto de gasolina</div>
+    <h2>Recarga <span class="badge-def">regra em definição</span></h2>
+  </div>
+
+  <div class="card">
+    <h3>Quanto custa</h3>
+    <p style="font-size:var(--fs-small)">Você <b>não paga combustível nem para em posto</b>. A energia é cobrada de forma simples: <b>[R$ X,XX] por km rodado</b>, direto na fatura.</p>
+    <div class="callout alert"><span class="ic"><svg class="tl-ic" role="img" aria-label="Atenção" width="48" height="48" viewBox="0 0 48 48" fill="none" xmlns="http://www.w3.org/2000/svg">
+<g>
+<rect width="48" height="48" rx="24" fill="#C9F1FE"/>
+<rect width="48" height="48" rx="24" fill="white"/>
+<path d="M29.9739 35.7546C30.1858 35.7586 30.3217 35.7714 30.3815 35.7928C30.7916 35.9397 30.9976 36.2175 30.9996 36.6261C31.0036 37.5255 31.0058 38.0047 31.006 38.0637C31.0082 38.5632 30.6603 39 30.1401 39C22.0024 38.9997 17.8773 38.9997 17.7651 39C17.7321 39 17.6992 38.9951 17.6676 38.9854C17.3629 38.8929 17.1566 38.7062 17.0487 38.4253C17.0069 38.3162 16.9885 38.1662 16.9937 37.9752C16.9994 37.7596 16.9993 37.3312 16.9933 36.6901C16.9893 36.2755 17.1618 35.9896 17.5108 35.8324C17.6732 35.7593 17.8416 35.7542 18.0146 35.7615C18.018 35.7616 18.0213 35.761 18.0244 35.7598C18.0276 35.7586 18.0304 35.7567 18.0328 35.7544C18.0352 35.752 18.0371 35.7492 18.0384 35.7461C18.0397 35.7429 18.0404 35.7396 18.0404 35.7362V33.26C18.0404 33.2451 18.0345 33.2308 18.0241 33.2201C17.1593 32.3236 16.1595 31.2767 15.0244 30.0795C14.8492 29.8945 14.7462 29.7558 14.7156 29.6633C14.631 29.4077 14.6198 29.1883 14.7491 28.937C14.8536 28.7343 15.0158 28.5911 15.2357 28.5075C15.3563 28.4614 15.5372 28.4409 15.7786 28.4461C16.166 28.4538 16.9152 28.4541 18.0262 28.4469C18.03 28.4469 18.0336 28.4454 18.0363 28.4428C18.0389 28.4401 18.0404 28.4365 18.0404 28.4328V25.3923C18.0404 25.3686 18.0312 25.3456 18.0146 25.3283C17.2369 24.5165 16.2435 23.4723 15.0343 22.1958C14.8679 22.0203 14.764 21.8826 14.7225 21.7827C14.4527 21.1375 14.9368 20.5238 15.6145 20.5263C16.1746 20.5289 16.9777 20.5293 18.0237 20.5276C18.0283 20.5276 18.0328 20.5258 18.0361 20.5225C18.0394 20.5192 18.0413 20.5147 18.0413 20.51V17.5485C18.0413 17.5356 18.0362 17.5231 18.0271 17.5138C17.8144 17.2921 16.8097 16.2351 15.0132 14.3427C14.8612 14.1823 14.7677 14.0631 14.7328 13.9849C14.5129 13.4892 14.7259 12.9116 15.249 12.7256C15.3533 12.6884 15.5009 12.67 15.6919 12.6706C16.9005 12.6732 17.6769 12.6736 18.0211 12.6719C18.0263 12.6719 18.0314 12.6698 18.0351 12.6661C18.0388 12.6624 18.0408 12.6574 18.0408 12.6521V12.0538C18.0409 12.0466 18.0383 12.0396 18.0337 12.034C18.0291 12.0284 18.0226 12.0246 18.0155 12.0233C17.5075 11.9306 17.1957 11.6262 17.08 11.1102C17.0775 11.0982 17.076 11.0861 17.0757 11.0741C17.0749 10.7176 17.0737 10.4784 17.0723 10.3564C17.0686 10.0801 17.0919 9.87563 17.1423 9.74306C17.2712 9.40632 17.5478 9.14518 17.8961 9.04338C17.9955 9.01418 18.1422 8.99972 18.3364 9C20.1085 9.00115 23.9533 9.00129 29.8708 9.00043C29.9971 9.00043 30.1228 9.03107 30.248 9.09235C30.6938 9.31083 30.9193 9.66932 30.9244 10.1678C30.9256 10.2721 30.9241 10.5368 30.9201 10.962C30.9184 11.1759 30.8603 11.3698 30.7458 11.5436C30.5785 11.7978 30.3198 11.9595 29.9696 12.0285C29.9631 12.0298 29.9572 12.0333 29.9529 12.0385C29.9487 12.0437 29.9464 12.0501 29.9464 12.0568V12.6513C29.9464 12.657 29.9487 12.6624 29.9527 12.6665C29.9568 12.6705 29.9622 12.6727 29.9679 12.6727C30.8547 12.6713 31.6924 12.6716 32.481 12.6736C32.5832 12.6739 32.6813 12.6951 32.7752 12.7372C33.1958 12.9267 33.3841 13.2549 33.34 13.7216C33.3208 13.9255 33.2362 14.1059 33.0862 14.2628C32.1057 15.2905 31.0665 16.387 29.9683 17.5524C29.9554 17.5662 29.9481 17.5845 29.9482 17.6035V20.5117C29.9482 20.516 29.9498 20.52 29.9528 20.523C29.9558 20.526 29.9598 20.5276 29.9641 20.5276C31.238 20.5288 32.011 20.5281 32.283 20.5255C32.5066 20.5235 32.6654 20.5419 32.7593 20.5809C33.2614 20.7896 33.48 21.3321 33.279 21.8205C33.2412 21.9132 33.1366 22.0501 32.965 22.2311C31.4904 23.7893 30.4888 24.8452 29.9602 25.3987C29.9525 25.4067 29.9482 25.4174 29.9482 25.4288V28.4216C29.9482 28.4289 29.9511 28.4359 29.9562 28.441C29.9614 28.4462 29.9684 28.4491 29.9756 28.4491C30.987 28.4557 31.7938 28.457 32.3959 28.4529C33.0823 28.4482 33.5419 29.0908 33.2782 29.7363C33.2386 29.8331 33.1423 29.961 32.9891 30.1199C31.9196 31.2294 30.9158 32.2772 29.9778 33.263C29.9588 33.2832 29.9482 33.3096 29.9482 33.3369V35.7284C29.9482 35.7353 29.9509 35.7419 29.9557 35.7468C29.9605 35.7517 29.9671 35.7545 29.9739 35.7546Z" fill="#000037"/>
+<path d="M28.4826 35.715C28.4826 35.7278 28.4776 35.74 28.4685 35.749C28.4595 35.7581 28.4473 35.7631 28.4345 35.7631H19.554C19.5412 35.7631 19.529 35.7581 19.5199 35.749C19.5109 35.74 19.5059 35.7278 19.5059 35.715V12.0636C19.5059 12.0508 19.5109 12.0386 19.5199 12.0296C19.529 12.0206 19.5412 12.0155 19.554 12.0155H28.4345C28.4473 12.0155 28.4595 12.0206 28.4685 12.0296C28.4776 12.0386 28.4826 12.0508 28.4826 12.0636V35.715Z" fill="#454852"/>
+<path d="M23.9956 12.6395C24.8096 12.6395 25.5616 12.8977 26.199 13.3929C26.9949 14.0118 27.5563 14.9752 27.5898 15.9871C27.6018 16.3445 27.5984 16.7328 27.5159 17.103C27.3664 17.7713 27.0636 18.3433 26.6075 18.8189C26.4526 18.9804 26.2301 19.1585 25.94 19.3532C25.4375 19.6911 24.8813 19.8706 24.2714 19.8918C24.2078 19.8938 24.1156 19.8948 23.9948 19.8948C23.874 19.8948 23.7817 19.8937 23.7182 19.8914C23.1083 19.8702 22.5521 19.6907 22.0495 19.3528C21.7595 19.1581 21.537 18.98 21.3821 18.8185C20.9262 18.3426 20.6236 17.7705 20.4741 17.1021C20.3921 16.7319 20.3886 16.3436 20.4006 15.9863C20.4341 14.9743 20.9959 14.011 21.7923 13.3925C22.4292 12.8972 23.1817 12.6395 23.9956 12.6395Z" fill="#000037"/>
+<path d="M27.5777 24.093C27.5576 24.9778 27.2509 25.7741 26.6736 26.4274C26.2355 26.9231 25.6949 27.271 25.0518 27.4711C24.5162 27.6382 23.963 27.6515 23.4424 27.588C22.6487 27.4913 21.8842 27.0579 21.3524 26.4764C20.7086 25.7729 20.3877 24.882 20.4092 23.9294C20.4311 22.9763 20.7928 22.1014 21.4675 21.4279C22.0255 20.8713 22.8089 20.4731 23.6065 20.413C24.1292 20.3735 24.6816 20.4117 25.2086 20.6033C25.8419 20.8326 26.3662 21.2049 26.7814 21.72C27.3282 22.3991 27.5979 23.2087 27.5777 24.093Z" fill="#000037"/>
+<path d="M27.5753 31.8175C27.5538 32.7702 27.1921 33.6447 26.5174 34.3186C25.9594 34.8748 25.1764 35.2725 24.3793 35.3326C23.8565 35.3726 23.3046 35.3339 22.7772 35.1428C22.1441 34.9134 21.6201 34.5412 21.2052 34.0261C20.6584 33.3479 20.3887 32.5383 20.4093 31.6539C20.4295 30.7695 20.7357 29.9732 21.313 29.3204C21.7508 28.8247 22.2913 28.477 22.9344 28.2771C23.4696 28.11 24.0228 28.0967 24.5433 28.1603C25.3366 28.2569 26.1012 28.6898 26.6325 29.271C27.2759 29.9749 27.5972 30.8649 27.5753 31.8175Z" fill="#000037"/>
+<path d="M26.4914 16.3791C26.5445 14.9965 25.4707 13.8328 24.0931 13.7798C22.7154 13.7269 21.5555 14.8049 21.5024 16.1875C21.4493 17.5701 22.5231 18.7339 23.9007 18.7868C25.2784 18.8397 26.4383 17.7618 26.4914 16.3791Z" fill="#CDCDCD"/>
+<path d="M26.486 31.7478C26.486 30.3568 25.3703 29.2291 23.994 29.2291C22.6177 29.2291 21.502 30.3568 21.502 31.7478C21.502 33.1388 22.6177 34.2664 23.994 34.2664C25.3703 34.2664 26.486 33.1388 26.486 31.7478Z" fill="#CDCDCD"/>
+<path d="M23.976 21.5099C25.752 21.4944 26.9744 23.3297 26.303 24.9696C25.9195 25.9055 25.0403 26.5274 24.0202 26.536C23.0005 26.545 22.1102 25.939 21.7107 25.0099C21.0102 23.3821 22.2004 21.5258 23.976 21.5099Z" fill="#FFEA08"/>
+</g>
+<rect x="0.696617" y="0.696617" width="46.6068" height="46.6068" rx="23.3034" stroke="#00003B" stroke-width="1.39323"/>
+
+</svg></span><span><b>[A DEFINIR: fórum de Produto/Financeiro]</b> Valor por km, regras de recarga em viagem e condições de devolução em definição.</span></div>
+  </div>
+
+  <h3 style="margin-top:24px">Onde recarregar: pontos públicos e apps <span class="badge-def">em definição</span></h3>
+  <div class="steps-v">
+    <div class="step">
+      <div class="txt"><span class="n">01</span><p><b>Baixe o app [A DEFINIR] antes de sair.</b> Cada rede de recarga tem o seu; o app indicado pela Turbi conecta as principais redes.</p></div>
+    </div>
+    <div class="step">
+      <div class="txt"><span class="n">02</span><p><b>Localize o ponto no app</b> e inicie a recarga por ele. O pagamento também é feito pelo app.</p></div>
+    </div>
+    <div class="step">
+      <div class="txt"><span class="n">03</span><p><b>Atenção ao valor caução:</b> algumas redes bloqueiam um valor no seu cartão antes da recarga. O valor varia de rede para rede e é liberado depois.</p></div>
+    </div>
+  </div>
+  <div class="callout alert"><span class="ic"><svg class="tl-ic" role="img" aria-label="Atenção" width="48" height="48" viewBox="0 0 48 48" fill="none" xmlns="http://www.w3.org/2000/svg">
+<g>
+<rect width="48" height="48" rx="24" fill="#C9F1FE"/>
+<rect width="48" height="48" rx="24" fill="white"/>
+<path d="M29.9739 35.7546C30.1858 35.7586 30.3217 35.7714 30.3815 35.7928C30.7916 35.9397 30.9976 36.2175 30.9996 36.6261C31.0036 37.5255 31.0058 38.0047 31.006 38.0637C31.0082 38.5632 30.6603 39 30.1401 39C22.0024 38.9997 17.8773 38.9997 17.7651 39C17.7321 39 17.6992 38.9951 17.6676 38.9854C17.3629 38.8929 17.1566 38.7062 17.0487 38.4253C17.0069 38.3162 16.9885 38.1662 16.9937 37.9752C16.9994 37.7596 16.9993 37.3312 16.9933 36.6901C16.9893 36.2755 17.1618 35.9896 17.5108 35.8324C17.6732 35.7593 17.8416 35.7542 18.0146 35.7615C18.018 35.7616 18.0213 35.761 18.0244 35.7598C18.0276 35.7586 18.0304 35.7567 18.0328 35.7544C18.0352 35.752 18.0371 35.7492 18.0384 35.7461C18.0397 35.7429 18.0404 35.7396 18.0404 35.7362V33.26C18.0404 33.2451 18.0345 33.2308 18.0241 33.2201C17.1593 32.3236 16.1595 31.2767 15.0244 30.0795C14.8492 29.8945 14.7462 29.7558 14.7156 29.6633C14.631 29.4077 14.6198 29.1883 14.7491 28.937C14.8536 28.7343 15.0158 28.5911 15.2357 28.5075C15.3563 28.4614 15.5372 28.4409 15.7786 28.4461C16.166 28.4538 16.9152 28.4541 18.0262 28.4469C18.03 28.4469 18.0336 28.4454 18.0363 28.4428C18.0389 28.4401 18.0404 28.4365 18.0404 28.4328V25.3923C18.0404 25.3686 18.0312 25.3456 18.0146 25.3283C17.2369 24.5165 16.2435 23.4723 15.0343 22.1958C14.8679 22.0203 14.764 21.8826 14.7225 21.7827C14.4527 21.1375 14.9368 20.5238 15.6145 20.5263C16.1746 20.5289 16.9777 20.5293 18.0237 20.5276C18.0283 20.5276 18.0328 20.5258 18.0361 20.5225C18.0394 20.5192 18.0413 20.5147 18.0413 20.51V17.5485C18.0413 17.5356 18.0362 17.5231 18.0271 17.5138C17.8144 17.2921 16.8097 16.2351 15.0132 14.3427C14.8612 14.1823 14.7677 14.0631 14.7328 13.9849C14.5129 13.4892 14.7259 12.9116 15.249 12.7256C15.3533 12.6884 15.5009 12.67 15.6919 12.6706C16.9005 12.6732 17.6769 12.6736 18.0211 12.6719C18.0263 12.6719 18.0314 12.6698 18.0351 12.6661C18.0388 12.6624 18.0408 12.6574 18.0408 12.6521V12.0538C18.0409 12.0466 18.0383 12.0396 18.0337 12.034C18.0291 12.0284 18.0226 12.0246 18.0155 12.0233C17.5075 11.9306 17.1957 11.6262 17.08 11.1102C17.0775 11.0982 17.076 11.0861 17.0757 11.0741C17.0749 10.7176 17.0737 10.4784 17.0723 10.3564C17.0686 10.0801 17.0919 9.87563 17.1423 9.74306C17.2712 9.40632 17.5478 9.14518 17.8961 9.04338C17.9955 9.01418 18.1422 8.99972 18.3364 9C20.1085 9.00115 23.9533 9.00129 29.8708 9.00043C29.9971 9.00043 30.1228 9.03107 30.248 9.09235C30.6938 9.31083 30.9193 9.66932 30.9244 10.1678C30.9256 10.2721 30.9241 10.5368 30.9201 10.962C30.9184 11.1759 30.8603 11.3698 30.7458 11.5436C30.5785 11.7978 30.3198 11.9595 29.9696 12.0285C29.9631 12.0298 29.9572 12.0333 29.9529 12.0385C29.9487 12.0437 29.9464 12.0501 29.9464 12.0568V12.6513C29.9464 12.657 29.9487 12.6624 29.9527 12.6665C29.9568 12.6705 29.9622 12.6727 29.9679 12.6727C30.8547 12.6713 31.6924 12.6716 32.481 12.6736C32.5832 12.6739 32.6813 12.6951 32.7752 12.7372C33.1958 12.9267 33.3841 13.2549 33.34 13.7216C33.3208 13.9255 33.2362 14.1059 33.0862 14.2628C32.1057 15.2905 31.0665 16.387 29.9683 17.5524C29.9554 17.5662 29.9481 17.5845 29.9482 17.6035V20.5117C29.9482 20.516 29.9498 20.52 29.9528 20.523C29.9558 20.526 29.9598 20.5276 29.9641 20.5276C31.238 20.5288 32.011 20.5281 32.283 20.5255C32.5066 20.5235 32.6654 20.5419 32.7593 20.5809C33.2614 20.7896 33.48 21.3321 33.279 21.8205C33.2412 21.9132 33.1366 22.0501 32.965 22.2311C31.4904 23.7893 30.4888 24.8452 29.9602 25.3987C29.9525 25.4067 29.9482 25.4174 29.9482 25.4288V28.4216C29.9482 28.4289 29.9511 28.4359 29.9562 28.441C29.9614 28.4462 29.9684 28.4491 29.9756 28.4491C30.987 28.4557 31.7938 28.457 32.3959 28.4529C33.0823 28.4482 33.5419 29.0908 33.2782 29.7363C33.2386 29.8331 33.1423 29.961 32.9891 30.1199C31.9196 31.2294 30.9158 32.2772 29.9778 33.263C29.9588 33.2832 29.9482 33.3096 29.9482 33.3369V35.7284C29.9482 35.7353 29.9509 35.7419 29.9557 35.7468C29.9605 35.7517 29.9671 35.7545 29.9739 35.7546Z" fill="#000037"/>
+<path d="M28.4826 35.715C28.4826 35.7278 28.4776 35.74 28.4685 35.749C28.4595 35.7581 28.4473 35.7631 28.4345 35.7631H19.554C19.5412 35.7631 19.529 35.7581 19.5199 35.749C19.5109 35.74 19.5059 35.7278 19.5059 35.715V12.0636C19.5059 12.0508 19.5109 12.0386 19.5199 12.0296C19.529 12.0206 19.5412 12.0155 19.554 12.0155H28.4345C28.4473 12.0155 28.4595 12.0206 28.4685 12.0296C28.4776 12.0386 28.4826 12.0508 28.4826 12.0636V35.715Z" fill="#454852"/>
+<path d="M23.9956 12.6395C24.8096 12.6395 25.5616 12.8977 26.199 13.3929C26.9949 14.0118 27.5563 14.9752 27.5898 15.9871C27.6018 16.3445 27.5984 16.7328 27.5159 17.103C27.3664 17.7713 27.0636 18.3433 26.6075 18.8189C26.4526 18.9804 26.2301 19.1585 25.94 19.3532C25.4375 19.6911 24.8813 19.8706 24.2714 19.8918C24.2078 19.8938 24.1156 19.8948 23.9948 19.8948C23.874 19.8948 23.7817 19.8937 23.7182 19.8914C23.1083 19.8702 22.5521 19.6907 22.0495 19.3528C21.7595 19.1581 21.537 18.98 21.3821 18.8185C20.9262 18.3426 20.6236 17.7705 20.4741 17.1021C20.3921 16.7319 20.3886 16.3436 20.4006 15.9863C20.4341 14.9743 20.9959 14.011 21.7923 13.3925C22.4292 12.8972 23.1817 12.6395 23.9956 12.6395Z" fill="#000037"/>
+<path d="M27.5777 24.093C27.5576 24.9778 27.2509 25.7741 26.6736 26.4274C26.2355 26.9231 25.6949 27.271 25.0518 27.4711C24.5162 27.6382 23.963 27.6515 23.4424 27.588C22.6487 27.4913 21.8842 27.0579 21.3524 26.4764C20.7086 25.7729 20.3877 24.882 20.4092 23.9294C20.4311 22.9763 20.7928 22.1014 21.4675 21.4279C22.0255 20.8713 22.8089 20.4731 23.6065 20.413C24.1292 20.3735 24.6816 20.4117 25.2086 20.6033C25.8419 20.8326 26.3662 21.2049 26.7814 21.72C27.3282 22.3991 27.5979 23.2087 27.5777 24.093Z" fill="#000037"/>
+<path d="M27.5753 31.8175C27.5538 32.7702 27.1921 33.6447 26.5174 34.3186C25.9594 34.8748 25.1764 35.2725 24.3793 35.3326C23.8565 35.3726 23.3046 35.3339 22.7772 35.1428C22.1441 34.9134 21.6201 34.5412 21.2052 34.0261C20.6584 33.3479 20.3887 32.5383 20.4093 31.6539C20.4295 30.7695 20.7357 29.9732 21.313 29.3204C21.7508 28.8247 22.2913 28.477 22.9344 28.2771C23.4696 28.11 24.0228 28.0967 24.5433 28.1603C25.3366 28.2569 26.1012 28.6898 26.6325 29.271C27.2759 29.9749 27.5972 30.8649 27.5753 31.8175Z" fill="#000037"/>
+<path d="M26.4914 16.3791C26.5445 14.9965 25.4707 13.8328 24.0931 13.7798C22.7154 13.7269 21.5555 14.8049 21.5024 16.1875C21.4493 17.5701 22.5231 18.7339 23.9007 18.7868C25.2784 18.8397 26.4383 17.7618 26.4914 16.3791Z" fill="#CDCDCD"/>
+<path d="M26.486 31.7478C26.486 30.3568 25.3703 29.2291 23.994 29.2291C22.6177 29.2291 21.502 30.3568 21.502 31.7478C21.502 33.1388 22.6177 34.2664 23.994 34.2664C25.3703 34.2664 26.486 33.1388 26.486 31.7478Z" fill="#CDCDCD"/>
+<path d="M23.976 21.5099C25.752 21.4944 26.9744 23.3297 26.303 24.9696C25.9195 25.9055 25.0403 26.5274 24.0202 26.536C23.0005 26.545 22.1102 25.939 21.7107 25.0099C21.0102 23.3821 22.2004 21.5258 23.976 21.5099Z" fill="#FFEA08"/>
+</g>
+<rect x="0.696617" y="0.696617" width="46.6068" height="46.6068" rx="23.3034" stroke="#00003B" stroke-width="1.39323"/>
+
+</svg></span><span><b>[A DEFINIR: fórum de Produto/Operação]</b> App oficial indicado, redes compatíveis e valores de caução por rede em definição. Alguns pontos podem pedir um app próprio da rede, mesmo listados no app principal.</span></div>
+
+  <h3 style="margin-top:24px">Conectar o cabo</h3>
+  <div class="steps-v">
+    <div class="step">
+      <div class="ph"><span class="icon">🖼</span><small>Ilustração: tecla da tampa de recarga e tampa abrindo</small></div>
+      <div class="txt"><span class="n">01</span><p>Carro <b>desligado</b>, aperte a tecla da <b>tampa de recarga</b>. Ela abre sozinha.</p></div>
+    </div>
+    <div class="step">
+      <div class="ph"><span class="icon">🖼</span><small>Ilustração: conector com botão de travamento preto encaixando na tomada do carro</small></div>
+      <div class="txt"><span class="n">02</span><p>Encaixe o conector <b>até travar</b> (você ouve o clique).</p></div>
+    </div>
+    <div class="step">
+      <div class="ph"><span class="icon">🖼</span><small>Ilustração: indicador de "conectado" aceso no painel/multimídia</small></div>
+      <div class="txt"><span class="n">03</span><p>Confira o indicador de <b>carga no painel</b>. A recarga para sozinha em 100%.</p></div>
+    </div>
+  </div>
+
+  <h3 style="margin-top:24px">Desconectar (a ordem importa!)</h3>
+  <div class="steps-v">
+    <div class="step">
+      <div class="ph"><span class="icon">🖼</span><small>Ilustração: chave destravando o carro</small></div>
+      <div class="txt"><span class="n">01</span><p><b>Destrave o carro primeiro.</b> Isso libera a trava do cabo por alguns segundos.</p></div>
+    </div>
+    <div class="step">
+      <div class="ph"><span class="icon">🖼</span><small>Ilustração: mão puxando o conector pelo corpo</small></div>
+      <div class="txt"><span class="n">02</span><p>Puxe o conector <b>logo em seguida</b>, segurando pelo corpo dele.</p></div>
+    </div>
+    <div class="step">
+      <div class="ph"><span class="icon">🖼</span><small>Ilustração: tampas do conector e de recarga fechadas</small></div>
+      <div class="txt"><span class="n">03</span><p>Feche as duas tampas e guarde o cabo <b>na bolsa própria</b>.</p></div>
+    </div>
+  </div>
+  <div class="callout error"><span class="ic"><svg class="tl-ic" role="img" aria-label="Importante" width="48" height="48" viewBox="0 0 48 48" fill="none" xmlns="http://www.w3.org/2000/svg">
+<g>
+<rect width="48" height="48" rx="24" fill="#C9F1FE"/>
+<rect width="48" height="48" rx="24" fill="white"/>
+<path d="M29.9739 35.7546C30.1858 35.7586 30.3217 35.7714 30.3815 35.7928C30.7916 35.9397 30.9976 36.2175 30.9996 36.6261C31.0036 37.5255 31.0058 38.0047 31.006 38.0637C31.0082 38.5632 30.6603 39 30.1401 39C22.0024 38.9997 17.8773 38.9997 17.7651 39C17.7321 39 17.6992 38.9951 17.6676 38.9854C17.3629 38.8929 17.1566 38.7062 17.0487 38.4253C17.0069 38.3162 16.9885 38.1662 16.9937 37.9752C16.9994 37.7596 16.9993 37.3312 16.9933 36.6901C16.9893 36.2755 17.1618 35.9896 17.5108 35.8324C17.6732 35.7593 17.8416 35.7542 18.0146 35.7615C18.018 35.7616 18.0213 35.761 18.0244 35.7598C18.0276 35.7586 18.0304 35.7567 18.0328 35.7544C18.0352 35.752 18.0371 35.7492 18.0384 35.7461C18.0397 35.7429 18.0404 35.7396 18.0404 35.7362V33.26C18.0404 33.2451 18.0345 33.2308 18.0241 33.2201C17.1593 32.3236 16.1595 31.2767 15.0244 30.0795C14.8492 29.8945 14.7462 29.7558 14.7156 29.6633C14.631 29.4077 14.6198 29.1883 14.7491 28.937C14.8536 28.7343 15.0158 28.5911 15.2357 28.5075C15.3563 28.4614 15.5372 28.4409 15.7786 28.4461C16.166 28.4538 16.9152 28.4541 18.0262 28.4469C18.03 28.4469 18.0336 28.4454 18.0363 28.4428C18.0389 28.4401 18.0404 28.4365 18.0404 28.4328V25.3923C18.0404 25.3686 18.0312 25.3456 18.0146 25.3283C17.2369 24.5165 16.2435 23.4723 15.0343 22.1958C14.8679 22.0203 14.764 21.8826 14.7225 21.7827C14.4527 21.1375 14.9368 20.5238 15.6145 20.5263C16.1746 20.5289 16.9777 20.5293 18.0237 20.5276C18.0283 20.5276 18.0328 20.5258 18.0361 20.5225C18.0394 20.5192 18.0413 20.5147 18.0413 20.51V17.5485C18.0413 17.5356 18.0362 17.5231 18.0271 17.5138C17.8144 17.2921 16.8097 16.2351 15.0132 14.3427C14.8612 14.1823 14.7677 14.0631 14.7328 13.9849C14.5129 13.4892 14.7259 12.9116 15.249 12.7256C15.3533 12.6884 15.5009 12.67 15.6919 12.6706C16.9005 12.6732 17.6769 12.6736 18.0211 12.6719C18.0263 12.6719 18.0314 12.6698 18.0351 12.6661C18.0388 12.6624 18.0408 12.6574 18.0408 12.6521V12.0538C18.0409 12.0466 18.0383 12.0396 18.0337 12.034C18.0291 12.0284 18.0226 12.0246 18.0155 12.0233C17.5075 11.9306 17.1957 11.6262 17.08 11.1102C17.0775 11.0982 17.076 11.0861 17.0757 11.0741C17.0749 10.7176 17.0737 10.4784 17.0723 10.3564C17.0686 10.0801 17.0919 9.87563 17.1423 9.74306C17.2712 9.40632 17.5478 9.14518 17.8961 9.04338C17.9955 9.01418 18.1422 8.99972 18.3364 9C20.1085 9.00115 23.9533 9.00129 29.8708 9.00043C29.9971 9.00043 30.1228 9.03107 30.248 9.09235C30.6938 9.31083 30.9193 9.66932 30.9244 10.1678C30.9256 10.2721 30.9241 10.5368 30.9201 10.962C30.9184 11.1759 30.8603 11.3698 30.7458 11.5436C30.5785 11.7978 30.3198 11.9595 29.9696 12.0285C29.9631 12.0298 29.9572 12.0333 29.9529 12.0385C29.9487 12.0437 29.9464 12.0501 29.9464 12.0568V12.6513C29.9464 12.657 29.9487 12.6624 29.9527 12.6665C29.9568 12.6705 29.9622 12.6727 29.9679 12.6727C30.8547 12.6713 31.6924 12.6716 32.481 12.6736C32.5832 12.6739 32.6813 12.6951 32.7752 12.7372C33.1958 12.9267 33.3841 13.2549 33.34 13.7216C33.3208 13.9255 33.2362 14.1059 33.0862 14.2628C32.1057 15.2905 31.0665 16.387 29.9683 17.5524C29.9554 17.5662 29.9481 17.5845 29.9482 17.6035V20.5117C29.9482 20.516 29.9498 20.52 29.9528 20.523C29.9558 20.526 29.9598 20.5276 29.9641 20.5276C31.238 20.5288 32.011 20.5281 32.283 20.5255C32.5066 20.5235 32.6654 20.5419 32.7593 20.5809C33.2614 20.7896 33.48 21.3321 33.279 21.8205C33.2412 21.9132 33.1366 22.0501 32.965 22.2311C31.4904 23.7893 30.4888 24.8452 29.9602 25.3987C29.9525 25.4067 29.9482 25.4174 29.9482 25.4288V28.4216C29.9482 28.4289 29.9511 28.4359 29.9562 28.441C29.9614 28.4462 29.9684 28.4491 29.9756 28.4491C30.987 28.4557 31.7938 28.457 32.3959 28.4529C33.0823 28.4482 33.5419 29.0908 33.2782 29.7363C33.2386 29.8331 33.1423 29.961 32.9891 30.1199C31.9196 31.2294 30.9158 32.2772 29.9778 33.263C29.9588 33.2832 29.9482 33.3096 29.9482 33.3369V35.7284C29.9482 35.7353 29.9509 35.7419 29.9557 35.7468C29.9605 35.7517 29.9671 35.7545 29.9739 35.7546Z" fill="#000037"/>
+<path d="M28.4826 35.715C28.4826 35.7278 28.4776 35.74 28.4685 35.749C28.4595 35.7581 28.4473 35.7631 28.4345 35.7631H19.554C19.5412 35.7631 19.529 35.7581 19.5199 35.749C19.5109 35.74 19.5059 35.7278 19.5059 35.715V12.0636C19.5059 12.0508 19.5109 12.0386 19.5199 12.0296C19.529 12.0206 19.5412 12.0155 19.554 12.0155H28.4345C28.4473 12.0155 28.4595 12.0206 28.4685 12.0296C28.4776 12.0386 28.4826 12.0508 28.4826 12.0636V35.715Z" fill="#454852"/>
+<path d="M23.9956 12.6395C24.8096 12.6395 25.5616 12.8977 26.199 13.3929C26.9949 14.0118 27.5563 14.9752 27.5898 15.9871C27.6018 16.3445 27.5984 16.7328 27.5159 17.103C27.3664 17.7713 27.0636 18.3433 26.6075 18.8189C26.4526 18.9804 26.2301 19.1585 25.94 19.3532C25.4375 19.6911 24.8813 19.8706 24.2714 19.8918C24.2078 19.8938 24.1156 19.8948 23.9948 19.8948C23.874 19.8948 23.7817 19.8937 23.7182 19.8914C23.1083 19.8702 22.5521 19.6907 22.0495 19.3528C21.7595 19.1581 21.537 18.98 21.3821 18.8185C20.9262 18.3426 20.6236 17.7705 20.4741 17.1021C20.3921 16.7319 20.3886 16.3436 20.4006 15.9863C20.4341 14.9743 20.9959 14.011 21.7923 13.3925C22.4292 12.8972 23.1817 12.6395 23.9956 12.6395Z" fill="#000037"/>
+<path d="M27.5777 24.093C27.5576 24.9778 27.2509 25.7741 26.6736 26.4274C26.2355 26.9231 25.6949 27.271 25.0518 27.4711C24.5162 27.6382 23.963 27.6515 23.4424 27.588C22.6487 27.4913 21.8842 27.0579 21.3524 26.4764C20.7086 25.7729 20.3877 24.882 20.4092 23.9294C20.4311 22.9763 20.7928 22.1014 21.4675 21.4279C22.0255 20.8713 22.8089 20.4731 23.6065 20.413C24.1292 20.3735 24.6816 20.4117 25.2086 20.6033C25.8419 20.8326 26.3662 21.2049 26.7814 21.72C27.3282 22.3991 27.5979 23.2087 27.5777 24.093Z" fill="#000037"/>
+<path d="M27.5753 31.8175C27.5538 32.7702 27.1921 33.6447 26.5174 34.3186C25.9594 34.8748 25.1764 35.2725 24.3793 35.3326C23.8565 35.3726 23.3046 35.3339 22.7772 35.1428C22.1441 34.9134 21.6201 34.5412 21.2052 34.0261C20.6584 33.3479 20.3887 32.5383 20.4093 31.6539C20.4295 30.7695 20.7357 29.9732 21.313 29.3204C21.7508 28.8247 22.2913 28.477 22.9344 28.2771C23.4696 28.11 24.0228 28.0967 24.5433 28.1603C25.3366 28.2569 26.1012 28.6898 26.6325 29.271C27.2759 29.9749 27.5972 30.8649 27.5753 31.8175Z" fill="#000037"/>
+<path d="M26.4914 16.3791C26.5445 14.9965 25.4707 13.8328 24.0931 13.7798C22.7154 13.7269 21.5555 14.8049 21.5024 16.1875C21.4493 17.5701 22.5231 18.7339 23.9007 18.7868C25.2784 18.8397 26.4383 17.7618 26.4914 16.3791Z" fill="#FE3232"/>
+<path d="M26.486 31.7478C26.486 30.3568 25.3703 29.2291 23.994 29.2291C22.6177 29.2291 21.502 30.3568 21.502 31.7478C21.502 33.1388 22.6177 34.2664 23.994 34.2664C25.3703 34.2664 26.486 33.1388 26.486 31.7478Z" fill="#CDCDCD"/>
+<path d="M23.976 21.5099C25.752 21.4944 26.9744 23.3297 26.303 24.9696C25.9195 25.9055 25.0403 26.5274 24.0202 26.536C23.0005 26.545 22.1102 25.939 21.7107 25.0099C21.0102 23.3821 22.2004 21.5258 23.976 21.5099Z" fill="#CDCDCD"/>
+</g>
+<rect x="0.696617" y="0.696617" width="46.6068" height="46.6068" rx="23.3034" stroke="#00003B" stroke-width="1.39323"/>
+
+</svg></span><span><b>Nunca force o cabo travado.</b> Não saiu? Destrave o carro de novo e tente na sequência. Forçar danifica a tomada.</span></div>
+  <div class="callout alert"><span class="ic"><svg class="tl-ic" role="img" aria-label="Atenção" width="48" height="48" viewBox="0 0 48 48" fill="none" xmlns="http://www.w3.org/2000/svg">
+<g>
+<rect width="48" height="48" rx="24" fill="#C9F1FE"/>
+<rect width="48" height="48" rx="24" fill="white"/>
+<path d="M29.9739 35.7546C30.1858 35.7586 30.3217 35.7714 30.3815 35.7928C30.7916 35.9397 30.9976 36.2175 30.9996 36.6261C31.0036 37.5255 31.0058 38.0047 31.006 38.0637C31.0082 38.5632 30.6603 39 30.1401 39C22.0024 38.9997 17.8773 38.9997 17.7651 39C17.7321 39 17.6992 38.9951 17.6676 38.9854C17.3629 38.8929 17.1566 38.7062 17.0487 38.4253C17.0069 38.3162 16.9885 38.1662 16.9937 37.9752C16.9994 37.7596 16.9993 37.3312 16.9933 36.6901C16.9893 36.2755 17.1618 35.9896 17.5108 35.8324C17.6732 35.7593 17.8416 35.7542 18.0146 35.7615C18.018 35.7616 18.0213 35.761 18.0244 35.7598C18.0276 35.7586 18.0304 35.7567 18.0328 35.7544C18.0352 35.752 18.0371 35.7492 18.0384 35.7461C18.0397 35.7429 18.0404 35.7396 18.0404 35.7362V33.26C18.0404 33.2451 18.0345 33.2308 18.0241 33.2201C17.1593 32.3236 16.1595 31.2767 15.0244 30.0795C14.8492 29.8945 14.7462 29.7558 14.7156 29.6633C14.631 29.4077 14.6198 29.1883 14.7491 28.937C14.8536 28.7343 15.0158 28.5911 15.2357 28.5075C15.3563 28.4614 15.5372 28.4409 15.7786 28.4461C16.166 28.4538 16.9152 28.4541 18.0262 28.4469C18.03 28.4469 18.0336 28.4454 18.0363 28.4428C18.0389 28.4401 18.0404 28.4365 18.0404 28.4328V25.3923C18.0404 25.3686 18.0312 25.3456 18.0146 25.3283C17.2369 24.5165 16.2435 23.4723 15.0343 22.1958C14.8679 22.0203 14.764 21.8826 14.7225 21.7827C14.4527 21.1375 14.9368 20.5238 15.6145 20.5263C16.1746 20.5289 16.9777 20.5293 18.0237 20.5276C18.0283 20.5276 18.0328 20.5258 18.0361 20.5225C18.0394 20.5192 18.0413 20.5147 18.0413 20.51V17.5485C18.0413 17.5356 18.0362 17.5231 18.0271 17.5138C17.8144 17.2921 16.8097 16.2351 15.0132 14.3427C14.8612 14.1823 14.7677 14.0631 14.7328 13.9849C14.5129 13.4892 14.7259 12.9116 15.249 12.7256C15.3533 12.6884 15.5009 12.67 15.6919 12.6706C16.9005 12.6732 17.6769 12.6736 18.0211 12.6719C18.0263 12.6719 18.0314 12.6698 18.0351 12.6661C18.0388 12.6624 18.0408 12.6574 18.0408 12.6521V12.0538C18.0409 12.0466 18.0383 12.0396 18.0337 12.034C18.0291 12.0284 18.0226 12.0246 18.0155 12.0233C17.5075 11.9306 17.1957 11.6262 17.08 11.1102C17.0775 11.0982 17.076 11.0861 17.0757 11.0741C17.0749 10.7176 17.0737 10.4784 17.0723 10.3564C17.0686 10.0801 17.0919 9.87563 17.1423 9.74306C17.2712 9.40632 17.5478 9.14518 17.8961 9.04338C17.9955 9.01418 18.1422 8.99972 18.3364 9C20.1085 9.00115 23.9533 9.00129 29.8708 9.00043C29.9971 9.00043 30.1228 9.03107 30.248 9.09235C30.6938 9.31083 30.9193 9.66932 30.9244 10.1678C30.9256 10.2721 30.9241 10.5368 30.9201 10.962C30.9184 11.1759 30.8603 11.3698 30.7458 11.5436C30.5785 11.7978 30.3198 11.9595 29.9696 12.0285C29.9631 12.0298 29.9572 12.0333 29.9529 12.0385C29.9487 12.0437 29.9464 12.0501 29.9464 12.0568V12.6513C29.9464 12.657 29.9487 12.6624 29.9527 12.6665C29.9568 12.6705 29.9622 12.6727 29.9679 12.6727C30.8547 12.6713 31.6924 12.6716 32.481 12.6736C32.5832 12.6739 32.6813 12.6951 32.7752 12.7372C33.1958 12.9267 33.3841 13.2549 33.34 13.7216C33.3208 13.9255 33.2362 14.1059 33.0862 14.2628C32.1057 15.2905 31.0665 16.387 29.9683 17.5524C29.9554 17.5662 29.9481 17.5845 29.9482 17.6035V20.5117C29.9482 20.516 29.9498 20.52 29.9528 20.523C29.9558 20.526 29.9598 20.5276 29.9641 20.5276C31.238 20.5288 32.011 20.5281 32.283 20.5255C32.5066 20.5235 32.6654 20.5419 32.7593 20.5809C33.2614 20.7896 33.48 21.3321 33.279 21.8205C33.2412 21.9132 33.1366 22.0501 32.965 22.2311C31.4904 23.7893 30.4888 24.8452 29.9602 25.3987C29.9525 25.4067 29.9482 25.4174 29.9482 25.4288V28.4216C29.9482 28.4289 29.9511 28.4359 29.9562 28.441C29.9614 28.4462 29.9684 28.4491 29.9756 28.4491C30.987 28.4557 31.7938 28.457 32.3959 28.4529C33.0823 28.4482 33.5419 29.0908 33.2782 29.7363C33.2386 29.8331 33.1423 29.961 32.9891 30.1199C31.9196 31.2294 30.9158 32.2772 29.9778 33.263C29.9588 33.2832 29.9482 33.3096 29.9482 33.3369V35.7284C29.9482 35.7353 29.9509 35.7419 29.9557 35.7468C29.9605 35.7517 29.9671 35.7545 29.9739 35.7546Z" fill="#000037"/>
+<path d="M28.4826 35.715C28.4826 35.7278 28.4776 35.74 28.4685 35.749C28.4595 35.7581 28.4473 35.7631 28.4345 35.7631H19.554C19.5412 35.7631 19.529 35.7581 19.5199 35.749C19.5109 35.74 19.5059 35.7278 19.5059 35.715V12.0636C19.5059 12.0508 19.5109 12.0386 19.5199 12.0296C19.529 12.0206 19.5412 12.0155 19.554 12.0155H28.4345C28.4473 12.0155 28.4595 12.0206 28.4685 12.0296C28.4776 12.0386 28.4826 12.0508 28.4826 12.0636V35.715Z" fill="#454852"/>
+<path d="M23.9956 12.6395C24.8096 12.6395 25.5616 12.8977 26.199 13.3929C26.9949 14.0118 27.5563 14.9752 27.5898 15.9871C27.6018 16.3445 27.5984 16.7328 27.5159 17.103C27.3664 17.7713 27.0636 18.3433 26.6075 18.8189C26.4526 18.9804 26.2301 19.1585 25.94 19.3532C25.4375 19.6911 24.8813 19.8706 24.2714 19.8918C24.2078 19.8938 24.1156 19.8948 23.9948 19.8948C23.874 19.8948 23.7817 19.8937 23.7182 19.8914C23.1083 19.8702 22.5521 19.6907 22.0495 19.3528C21.7595 19.1581 21.537 18.98 21.3821 18.8185C20.9262 18.3426 20.6236 17.7705 20.4741 17.1021C20.3921 16.7319 20.3886 16.3436 20.4006 15.9863C20.4341 14.9743 20.9959 14.011 21.7923 13.3925C22.4292 12.8972 23.1817 12.6395 23.9956 12.6395Z" fill="#000037"/>
+<path d="M27.5777 24.093C27.5576 24.9778 27.2509 25.7741 26.6736 26.4274C26.2355 26.9231 25.6949 27.271 25.0518 27.4711C24.5162 27.6382 23.963 27.6515 23.4424 27.588C22.6487 27.4913 21.8842 27.0579 21.3524 26.4764C20.7086 25.7729 20.3877 24.882 20.4092 23.9294C20.4311 22.9763 20.7928 22.1014 21.4675 21.4279C22.0255 20.8713 22.8089 20.4731 23.6065 20.413C24.1292 20.3735 24.6816 20.4117 25.2086 20.6033C25.8419 20.8326 26.3662 21.2049 26.7814 21.72C27.3282 22.3991 27.5979 23.2087 27.5777 24.093Z" fill="#000037"/>
+<path d="M27.5753 31.8175C27.5538 32.7702 27.1921 33.6447 26.5174 34.3186C25.9594 34.8748 25.1764 35.2725 24.3793 35.3326C23.8565 35.3726 23.3046 35.3339 22.7772 35.1428C22.1441 34.9134 21.6201 34.5412 21.2052 34.0261C20.6584 33.3479 20.3887 32.5383 20.4093 31.6539C20.4295 30.7695 20.7357 29.9732 21.313 29.3204C21.7508 28.8247 22.2913 28.477 22.9344 28.2771C23.4696 28.11 24.0228 28.0967 24.5433 28.1603C25.3366 28.2569 26.1012 28.6898 26.6325 29.271C27.2759 29.9749 27.5972 30.8649 27.5753 31.8175Z" fill="#000037"/>
+<path d="M26.4914 16.3791C26.5445 14.9965 25.4707 13.8328 24.0931 13.7798C22.7154 13.7269 21.5555 14.8049 21.5024 16.1875C21.4493 17.5701 22.5231 18.7339 23.9007 18.7868C25.2784 18.8397 26.4383 17.7618 26.4914 16.3791Z" fill="#CDCDCD"/>
+<path d="M26.486 31.7478C26.486 30.3568 25.3703 29.2291 23.994 29.2291C22.6177 29.2291 21.502 30.3568 21.502 31.7478C21.502 33.1388 22.6177 34.2664 23.994 34.2664C25.3703 34.2664 26.486 33.1388 26.486 31.7478Z" fill="#CDCDCD"/>
+<path d="M23.976 21.5099C25.752 21.4944 26.9744 23.3297 26.303 24.9696C25.9195 25.9055 25.0403 26.5274 24.0202 26.536C23.0005 26.545 22.1102 25.939 21.7107 25.0099C21.0102 23.3821 22.2004 21.5258 23.976 21.5099Z" fill="#FFEA08"/>
+</g>
+<rect x="0.696617" y="0.696617" width="46.6068" height="46.6068" rx="23.3034" stroke="#00003B" stroke-width="1.39323"/>
+
+</svg></span><span><b>Com o cabo conectado o carro não anda</b> (é uma proteção). "Não sai do lugar" depois da recarga? Confira o cabo.</span></div>
+
+  <div class="duo">
+    <div class="card yes">
+      <h3 style="color:var(--feedback-color-check)">Faça</h3>
+      <ul>
+        <li>Confira o <b>cabo</b> no checklist de retirada e devolução.</li>
+        <li>Recarregue com a bateria baixa, sem esperar zerar.</li>
+        <li>Guarde o cabo na bolsa após o uso.</li>
+      </ul>
+    </div>
+    <div class="card no">
+      <h3 style="color:var(--feedback-color-error)">Evite</h3>
+      <ul>
+        <li>Puxar o conector ainda travado.</li>
+        <li>Deixar as tampas de recarga abertas.</li>
+        <li>Rodar com a bateria no limite.</li>
+      </ul>
+    </div>
+  </div>
+</section>
+
+<!-- ============ IMPREVISTOS ============ -->
+<section id="imprevistos">
+  <div class="sec-head">
+    <div class="eyebrow">Tive um problema, e agora?</div>
+    <h2>Imprevistos</h2>
+    <p class="lead">Antes de acionar a gente, teste estes caminhos. A maioria resolve em segundos.</p>
+  </div>
+
+  <div class="acc">
+    <details>
+      <summary>O carro não liga</summary>
+      <div class="body">
+        <ol>
+          <li>Chave <b>com você, dentro do carro</b>? (Fora do porta-luvas e do chão.)</li>
+          <li>Botão <b>P</b> do seletor acionado?</li>
+          <li><b>Pé firme no freio</b> ao apertar START/STOP?</li>
+          <li><b>Cabo de recarga desconectado</b>?</li>
+        </ol>
+        <p>Lembre: o carro ligado é silencioso. Confira se o READY já não está aceso. Se nada resolver, chame a gente no chat.</p>
+      </div>
+    </details>
+
+    <details>
+      <summary>A bateria está acabando no caminho</summary>
+      <div class="body">
+        <p>Reduza o ar-condicionado, mantenha velocidade constante e vá a um ponto de recarga. Não vai chegar? <b>Pare em local seguro e chame a gente pelo chat.</b> Não insista até o carro parar sozinho.</p>
+      </div>
+    </details>
+
+    <details>
+      <summary>A bateria acabou / o carro parou</summary>
+      <div class="body">
+        <p>Pare em local seguro, pisca-alerta, e acione o suporte pelo chat. Carro elétrico <b>só pode ser rebocado em guincho plataforma</b>, nunca arrastado. A gente envia o guincho certo.</p>
+      </div>
+    </details>
+
+    <details>
+      <summary>Bati o carro / acidente</summary>
+      <div class="body">
+        <p>Primeiro, veja se está todo mundo bem e vá para um local seguro. <b>Não toque na parte de baixo do carro nem em líquidos vazados</b> (a bateria fica sob o assoalho). Acione a gente pelo chat.</p>
+      </div>
+    </details>
+
+    <details>
+      <summary>Não consigo abrir pelo app (1ª abertura)</summary>
+      <div class="body">
+        <p>App atualizado? <b>Bluetooth e GPS</b> ligados? Aproxime-se do carro e tente de novo. Se persistir, chame a gente no chat.</p>
+      </div>
+    </details>
+
+    <details>
+      <summary>Acendeu uma luz no painel</summary>
+      <div class="body">
+        <p>Luzes <b>amarelas</b>: avisos, siga com atenção e nos comunique. Luzes <b>vermelhas</b>: pare em local seguro e acione a gente. Na dúvida, mande uma foto no chat.</p>
+      </div>
+    </details>
+  </div>
+</section>
+
+<!-- ============ FAQ ============ -->
+<section id="faq">
+  <div class="sec-head">
+    <div class="eyebrow">Ainda com dúvida?</div>
+    <h2>Perguntas rápidas</h2>
+  </div>
+
+  <div class="acc">
+    <details>
+      <summary>Preciso parar em posto de gasolina?</summary>
+      <div class="body"><p>Não! O carro é 100% elétrico: sem tanque, sem óleo, sem cartão de combustível. A energia é cobrada por km rodado <span class="badge-def">regra em definição</span>.</p></div>
+    </details>
+
+    <details>
+      <summary>Qual é a autonomia? Dá pra ir até onde eu quero?</summary>
+      <div class="body"><p>O painel mostra a autonomia em km, em tempo real. Planeje por esse número. Para trajetos urbanos do dia a dia, sobra folga.</p></div>
+    </details>
+
+    <details>
+      <summary>Posso carregar o carro por conta própria?</summary>
+      <div class="body"><p>Em pontos públicos, a recarga é iniciada e paga pelo <b>app da rede de recarga</b> (veja <a href="#recarga">Onde recarregar</a>). <b>[A DEFINIR: fórum de Produto/Operação]</b> As regras de recarga durante a viagem estão em definição e serão detalhadas aqui.</p></div>
+    </details>
+
+    <details>
+      <summary>O que é o valor caução na recarga?</summary>
+      <div class="body"><p>Algumas redes de recarga <b>bloqueiam um valor no seu cartão</b> antes de liberar o carregador, como garantia. O valor varia de rede para rede e é <b>liberado após a recarga</b>. Esse bloqueio é da rede de recarga, não é uma cobrança da Turbi.</p></div>
+    </details>
+
+    <details>
+      <summary>Como devolvo o carro?</summary>
+      <div class="body"><p>Siga o checklist do app: <b>cabo de recarga no carro</b> (na bolsa) e <b>chave no porta-luvas</b>. <b>[A DEFINIR]</b> Regras de nível mínimo de bateria na devolução.</p></div>
+    </details>
+
+    <details>
+      <summary>O carro faz um barulho sozinho. É defeito?</summary>
+      <div class="body"><p>Provavelmente não. Veja <a href="#sons">Sons normais</a>: zumbido em baixa velocidade, apito na ré, ventilador na recarga e cliques de trava são de fábrica.</p></div>
+    </details>
+  </div>
+</section>
+
+<!-- ============ SUPORTE ============ -->
+<section id="suporte">
+  <div class="suporte">
+    <h2>Falar com a gente</h2>
+    <p style="margin-top:6px">Chat no app, 24 horas, todos os dias:</p>
+    <div class="path">Perfil › Ajuda › Falar com a gente</div>
+    <p>Para emergências na estrada, o mesmo chat aciona a Assistência 24h com guincho plataforma.</p>
+  </div>
+</section>
+
+</div>
+</main>
+
+<footer>
+  Manual do Carro Elétrico · BYD Dolphin · Turbi<br>
+  Versão piloto. Conteúdo sujeito a atualização.
+</footer>
+
+<button id="toTop" aria-label="Voltar ao topo">↑</button>
+
+<script>
+const links=[...document.querySelectorAll('.chips a')];
+const secs=links.map(a=>document.querySelector(a.getAttribute('href')));
+const obs=new IntersectionObserver(es=>{
+  es.forEach(e=>{
+    if(e.isIntersecting){
+      links.forEach(l=>l.classList.toggle('active',l.getAttribute('href')==='#'+e.target.id));
+    }
+  });
+},{rootMargin:'-25% 0px -60% 0px'});
+secs.forEach(s=>s&&obs.observe(s));
+const t=document.getElementById('toTop');
+addEventListener('scroll',()=>{t.classList.toggle('show',scrollY>600)});
+t.addEventListener('click',()=>scrollTo({top:0,behavior:'smooth'}));
+</script>
+</body>
+</html>
