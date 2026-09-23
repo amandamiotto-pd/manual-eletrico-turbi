@@ -78,7 +78,6 @@ body{font-family:var(--font);font-size:var(--fs-body);line-height:1.6;color:var(
 @media(min-width:900px){.hero-car{width:100%;max-width:520px;justify-self:end}}
 .hero-car img{width:100%;height:auto;display:block;filter:drop-shadow(0 26px 44px rgba(0,0,20,.55))}
 .hero-eyebrow{font-size:var(--fs-micro);font-weight:600;text-transform:uppercase;letter-spacing:.18em;color:var(--brand-color-primary);margin-bottom:16px;display:flex;align-items:center;gap:10px}
-.hero-eyebrow::before{content:'';width:28px;height:1px;background:var(--brand-color-primary)}
 .hero h1{font-size:var(--fs-hero);font-weight:700;line-height:1.14;letter-spacing:-.02em;margin-bottom:16px}
 .hero h1 em{font-style:normal;color:var(--brand-color-primary)}
 .hero p{color:var(--brand-color-primary-light);max-width:50ch}
@@ -91,7 +90,6 @@ section{padding:52px 0 12px}
 @media(min-width:900px){section{padding:72px 0 16px}}
 .sec-head{max-width:640px;margin-bottom:26px}
 .eyebrow{font-size:var(--fs-micro);font-weight:600;text-transform:uppercase;letter-spacing:.16em;color:var(--highlight-color-primary);margin-bottom:8px;display:flex;align-items:center;gap:10px}
-.eyebrow::before{content:'';width:22px;height:1px;background:var(--highlight-color-primary)}
 h2{font-size:var(--fs-h2);font-weight:700;color:var(--brand-color-secondary-dark);line-height:1.22;letter-spacing:-.01em;margin-bottom:8px}
 .lead{color:var(--neutral-color-low-medium);font-size:var(--fs-small)}
 h3{font-size:var(--fs-h3);font-weight:600;color:var(--brand-color-secondary-dark);margin-bottom:8px}
@@ -227,6 +225,26 @@ footer{text-align:center;padding:38px 20px 50px;font-size:var(--fs-micro);color:
 .rodizio .rod-ic{flex:0 0 52px;height:52px;border-radius:50%;background:var(--feedback-color-check);color:var(--neutral-color-high);display:flex;align-items:center;justify-content:center}
 .rodizio b{display:block;font-size:var(--fs-h3);color:var(--brand-color-secondary-dark);margin-bottom:2px}
 .rodizio p{font-size:var(--fs-small);color:var(--neutral-color-low-medium)}
+
+/* ===== Menu de seções: indicação de scroll lateral ===== */
+.chips-wrap{position:relative;max-width:1120px;margin:0 auto}
+.chips a{border-color:var(--line);background:var(--neutral-color-high)}
+.chips{scroll-behavior:smooth;scroll-padding:0 48px}
+.chips-wrap::before,.chips-wrap::after{content:"";position:absolute;top:0;bottom:10px;width:56px;pointer-events:none;opacity:0;transition:opacity .2s;z-index:1}
+.chips-wrap::before{left:0;background:linear-gradient(90deg,rgba(255,255,255,.98) 30%,rgba(255,255,255,0))}
+.chips-wrap::after{right:0;background:linear-gradient(270deg,rgba(255,255,255,.98) 30%,rgba(255,255,255,0))}
+.chips-wrap.can-left::before,.chips-wrap.can-right::after{opacity:1}
+.chips-arrow{position:absolute;top:calc(50% - 5px);transform:translateY(-50%);z-index:2;width:32px;height:32px;border-radius:50%;border:none;background:var(--brand-color-secondary);color:var(--neutral-color-high);display:flex;align-items:center;justify-content:center;cursor:pointer;box-shadow:0 2px 10px rgba(36,29,183,.35);opacity:0;pointer-events:none;transition:opacity .2s}
+.chips-arrow:hover{background:var(--brand-color-secondary-medium)}
+.chips-arrow.left{left:8px}
+.chips-arrow.right{right:8px}
+.chips-wrap.can-left .chips-arrow.left,.chips-wrap.can-right .chips-arrow.right{opacity:1;pointer-events:auto}
+.chips-wrap.hint .chips-arrow.right{animation:nudge 1s ease-in-out 2}
+@keyframes nudge{0%,100%{transform:translateY(-50%) translateX(0)}50%{transform:translateY(-50%) translateX(4px)}}
+@media(prefers-reduced-motion:reduce){.chips{scroll-behavior:auto}.chips-wrap.hint .chips-arrow.right{animation:none}}
+
+.ill{margin:0;border-radius:12px;overflow:hidden;border:1px solid var(--line);background:var(--neutral-color-high)}
+.ill img{width:100%;aspect-ratio:4/3;object-fit:cover;display:block;border-radius:0}
 </style>
 </head>
 <body>
@@ -256,7 +274,9 @@ footer{text-align:center;padding:38px 20px 50px;font-size:var(--fs-micro);color:
 <path d="M69.6094 4H70.6094C71.7139 4 72.6094 4.89543 72.6094 6V10C72.6094 11.1046 71.7139 12 70.6094 12H69.6094V4Z" fill="#DDEDE9"/>
 </svg>
   </div>
-  <nav class="chips" id="chips">
+  <div class="chips-wrap" id="chipsWrap">
+  <button class="chips-arrow left" id="chipsL" aria-label="Ver itens anteriores do menu" tabindex="-1"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M15 6l-6 6 6 6"/></svg></button>
+  <nav class="chips" id="chips" aria-label="Seções do manual">
     <a href="#diferenciais">Diferenciais</a>
     <a href="#ligar">A chave</a>
     <a href="#sons">Sons normais</a>
@@ -267,6 +287,8 @@ footer{text-align:center;padding:38px 20px 50px;font-size:var(--fs-micro);color:
     <a href="#faq">Dúvidas</a>
     <a href="#suporte">Suporte</a>
   </nav>
+  <button class="chips-arrow right" id="chipsR" aria-label="Ver mais itens do menu" tabindex="-1"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M9 6l6 6-6 6"/></svg></button>
+  </div>
 </div>
 
 <header class="hero" id="inicio">
@@ -278,6 +300,7 @@ footer{text-align:center;padding:38px 20px 50px;font-size:var(--fs-micro);color:
       <p>Ele liga só com o pé no freio, não faz barulho e "abastece" na tomada. Em 5 minutos você está pronto pra rodar.</p>
       <div class="hero-meta">
         <span>100% elétrico</span>
+        <span>Livre do rodízio em São Paulo</span>
         <span>Zero gasolina</span>
         <span>Suporte 24/7 no app</span>
       </div>
@@ -301,7 +324,8 @@ footer{text-align:center;padding:38px 20px 50px;font-size:var(--fs-micro);color:
   <div class="dif-grid">
     <div class="dif">
       <span class="num">01</span>
-      <h3>Não tem botão de ligar</h3>
+      <h3>Não precisa girar a chave nem apertar botão para ligar</h3>
+      <figure class="ill"><img src="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCA4MDAgNjAwIiB3aWR0aD0iODAwIiBoZWlnaHQ9IjYwMCI+CiAgPGRlZnM+CiAgICA8bGluZWFyR3JhZGllbnQgaWQ9ImZsb29yIiB4MT0iMCIgeTE9IjAiIHgyPSIwIiB5Mj0iMSI+CiAgICAgIDxzdG9wIG9mZnNldD0iMCIgc3RvcC1jb2xvcj0iIzlhOWE5YSIvPgogICAgICA8c3RvcCBvZmZzZXQ9IjAuMzUiIHN0b3AtY29sb3I9IiNjNGM0YzQiLz4KICAgICAgPHN0b3Agb2Zmc2V0PSIxIiBzdG9wLWNvbG9yPSIjZGVkZWRlIi8+CiAgICA8L2xpbmVhckdyYWRpZW50PgogICAgPGxpbmVhckdyYWRpZW50IGlkPSJtYXQiIHgxPSIwIiB5MT0iMCIgeDI9IjAiIHkyPSIxIj4KICAgICAgPHN0b3Agb2Zmc2V0PSIwIiBzdG9wLWNvbG9yPSIjOGQ4ZDhkIi8+CiAgICAgIDxzdG9wIG9mZnNldD0iMSIgc3RvcC1jb2xvcj0iI2I1YjViNSIvPgogICAgPC9saW5lYXJHcmFkaWVudD4KICAgIDxsaW5lYXJHcmFkaWVudCBpZD0iZGFzaCIgeDE9IjAiIHkxPSIwIiB4Mj0iMCIgeTI9IjEiPgogICAgICA8c3RvcCBvZmZzZXQ9IjAiIHN0b3AtY29sb3I9IiM1ZTVlNWUiLz4KICAgICAgPHN0b3Agb2Zmc2V0PSIxIiBzdG9wLWNvbG9yPSIjOGE4YThhIi8+CiAgICA8L2xpbmVhckdyYWRpZW50PgogICAgPGxpbmVhckdyYWRpZW50IGlkPSJzaWRlTCIgeDE9IjAiIHkxPSIwIiB4Mj0iMSIgeTI9IjAiPgogICAgICA8c3RvcCBvZmZzZXQ9IjAiIHN0b3AtY29sb3I9IiM3YTdhN2EiLz4KICAgICAgPHN0b3Agb2Zmc2V0PSIxIiBzdG9wLWNvbG9yPSIjYjBiMGIwIi8+CiAgICA8L2xpbmVhckdyYWRpZW50PgogICAgPGxpbmVhckdyYWRpZW50IGlkPSJzaWRlUiIgeDE9IjEiIHkxPSIwIiB4Mj0iMCIgeTI9IjAiPgogICAgICA8c3RvcCBvZmZzZXQ9IjAiIHN0b3AtY29sb3I9IiM2ZjZmNmYiLz4KICAgICAgPHN0b3Agb2Zmc2V0PSIxIiBzdG9wLWNvbG9yPSIjYThhOGE4Ii8+CiAgICA8L2xpbmVhckdyYWRpZW50PgogICAgPGxpbmVhckdyYWRpZW50IGlkPSJwYWQiIHgxPSIwIiB5MT0iMCIgeDI9IjEiIHkyPSIxIj4KICAgICAgPHN0b3Agb2Zmc2V0PSIwIiBzdG9wLWNvbG9yPSIjZjRmNGY0Ii8+CiAgICAgIDxzdG9wIG9mZnNldD0iMC41NSIgc3RvcC1jb2xvcj0iI2NmY2ZjZiIvPgogICAgICA8c3RvcCBvZmZzZXQ9IjEiIHN0b3AtY29sb3I9IiM5YzljOWMiLz4KICAgIDwvbGluZWFyR3JhZGllbnQ+CiAgICA8bGluZWFyR3JhZGllbnQgaWQ9ImFybSIgeDE9IjAiIHkxPSIwIiB4Mj0iMSIgeTI9IjAiPgogICAgICA8c3RvcCBvZmZzZXQ9IjAiIHN0b3AtY29sb3I9IiM2YTZhNmEiLz4KICAgICAgPHN0b3Agb2Zmc2V0PSIwLjUiIHN0b3AtY29sb3I9IiNiZGJkYmQiLz4KICAgICAgPHN0b3Agb2Zmc2V0PSIxIiBzdG9wLWNvbG9yPSIjNmE2YTZhIi8+CiAgICA8L2xpbmVhckdyYWRpZW50PgogICAgPGZpbHRlciBpZD0ic29mdCIgeD0iLTIwJSIgeT0iLTIwJSIgd2lkdGg9IjE0MCUiIGhlaWdodD0iMTYwJSI+CiAgICAgIDxmZUdhdXNzaWFuQmx1ciBzdGREZXZpYXRpb249IjEwIi8+CiAgICA8L2ZpbHRlcj4KICA8L2RlZnM+CgogIDwhLS0gcGlzbyAtLT4KICA8cmVjdCB3aWR0aD0iODAwIiBoZWlnaHQ9IjYwMCIgZmlsbD0idXJsKCNmbG9vcikiLz4KCiAgPCEtLSBwYWluZWwgaW5mZXJpb3IgKHNvYiBvIHZvbGFudGUpIC0tPgogIDxwYXRoIGQ9Ik0wIDAgSDgwMCBWOTYgUTYyMCAxMjggNDAwIDEyOCBRMTgwIDEyOCAwIDk2IFoiIGZpbGw9InVybCgjZGFzaCkiIHN0cm9rZT0iIzMzMyIgc3Ryb2tlLXdpZHRoPSIyLjUiLz4KICA8cGF0aCBkPSJNNDAgMTAyIFEyMjAgMTIyIDQwMCAxMjIgUTU4MCAxMjIgNzYwIDEwMiIgZmlsbD0ibm9uZSIgc3Ryb2tlPSIjYTlhOWE5IiBzdHJva2Utd2lkdGg9IjIiLz4KICA8IS0tIGNvbHVuYSBkZSBkaXJlw6fDo28gLS0+CiAgPHBhdGggZD0iTTMxOCAwIEg0ODIgVjU4IFE0ODIgOTIgNDQwIDk2IEgzNjAgUTMxOCA5MiAzMTggNTggWiIgZmlsbD0iIzZjNmM2YyIgc3Ryb2tlPSIjMzMzIiBzdHJva2Utd2lkdGg9IjIuNSIvPgogIDxwYXRoIGQ9Ik0zMzYgMTggSDQ2NCIgc3Ryb2tlPSIjOGU4ZThlIiBzdHJva2Utd2lkdGg9IjIiLz4KCiAgPCEtLSBsYXRlcmFsIGVzcXVlcmRhIChwb3J0YSAvIGFwb2lvIGRlIHDDqSkgLS0+CiAgPHBhdGggZD0iTTAgOTYgUTYwIDEwOCAxMTAgMTE2IEwxNTAgNjAwIEgwIFoiIGZpbGw9InVybCgjc2lkZUwpIiBzdHJva2U9IiMzMzMiIHN0cm9rZS13aWR0aD0iMi41Ii8+CiAgPHBhdGggZD0iTTQwIDMwMCBMMTEyIDI4NiBMMTI4IDQ3MCBMNTIgNDg2IFoiIGZpbGw9IiNhM2EzYTMiIHN0cm9rZT0iIzMzMyIgc3Ryb2tlLXdpZHRoPSIyIi8+CiAgPHBhdGggZD0iTTYwIDMzMCBMMTE0IDMyMCBNNjIgMzYwIEwxMTYgMzUwIE02NCAzOTAgTDExOCAzODAgTTY2IDQyMCBMMTIwIDQxMCBNNjggNDUwIEwxMjIgNDQwIiBzdHJva2U9IiM3ZDdkN2QiIHN0cm9rZS13aWR0aD0iMyIgc3Ryb2tlLWxpbmVjYXA9InJvdW5kIi8+CgogIDwhLS0gY29uc29sZSBjZW50cmFsIChkaXJlaXRhKSAtLT4KICA8cGF0aCBkPSJNODAwIDk2IFE3NDAgMTA4IDY4MCAxMTggTDYzNiA2MDAgSDgwMCBaIiBmaWxsPSJ1cmwoI3NpZGVSKSIgc3Ryb2tlPSIjMzMzIiBzdHJva2Utd2lkdGg9IjIuNSIvPgogIDxwYXRoIGQ9Ik03MDAgMTgwIFE3MTYgMzMwIDY5MiA1MjAiIGZpbGw9Im5vbmUiIHN0cm9rZT0iIzhjOGM4YyIgc3Ryb2tlLXdpZHRoPSIyIi8+CgogIDwhLS0gdGFwZXRlIC0tPgogIDxwYXRoIGQ9Ik0xODIgMTkwIEg2MTAgUTYyOCAxOTAgNjMwIDIwOCBMNjUwIDU2MCBRNjUyIDU5MCA2MjIgNTkwIEgxNzAgUTE0MCA1OTAgMTQyIDU2MCBMMTY0IDIwOCBRMTY2IDE5MCAxODIgMTkwIFoiIGZpbGw9InVybCgjbWF0KSIgc3Ryb2tlPSIjMzMzIiBzdHJva2Utd2lkdGg9IjIuNSIvPgogIDxwYXRoIGQ9Ik0xOTYgMjA2IEg1OTYgUTYxMCAyMDYgNjExIDIyMCBMNjMwIDU1MiBRNjMxIDU3MiA2MTAgNTcyIEgxODIgUTE2MiA1NzIgMTYzIDU1MiBMMTgwIDIyMCBRMTgxIDIwNiAxOTYgMjA2IFoiIGZpbGw9Im5vbmUiIHN0cm9rZT0iIzdhN2E3YSIgc3Ryb2tlLXdpZHRoPSIyIiBzdHJva2UtZGFzaGFycmF5PSI4IDciLz4KCiAgPCEtLSBzb21icmFzIGRvcyBwZWRhaXMgLS0+CiAgPGVsbGlwc2UgY3g9IjM1MiIgY3k9IjM1MiIgcng9IjEwMCIgcnk9IjM0IiBmaWxsPSIjNTU1IiBvcGFjaXR5PSIuMzUiIGZpbHRlcj0idXJsKCNzb2Z0KSIvPgogIDxlbGxpcHNlIGN4PSI1MzAiIGN5PSI0NDAiIHJ4PSI0NCIgcnk9IjI2IiBmaWxsPSIjNTU1IiBvcGFjaXR5PSIuMzUiIGZpbHRlcj0idXJsKCNzb2Z0KSIvPgoKICA8IS0tIGhhc3RlIGRvIGZyZWlvIChwZW5kdWxhciwgdmVtIGRvIHBhaW5lbCkgLS0+CiAgPHBhdGggZD0iTTMzOCAxMjIgTDM2NiAxMjIgTDM3MiAyNjIgTDMzMiAyNjIgWiIgZmlsbD0idXJsKCNhcm0pIiBzdHJva2U9IiMzMzMiIHN0cm9rZS13aWR0aD0iMi41Ii8+CgogIDwhLS0gcGVkYWwgZGUgZnJlaW8gKGxhcmdvKSAtLT4KICA8cGF0aCBkPSJNMjYyIDI1MCBRMjYyIDIzNiAyNzggMjM2IEg0MjggUTQ0NCAyMzYgNDQ0IDI1MCBMNDQwIDMzMCBRNDM5IDM0NiA0MjMgMzQ2IEgyODMgUTI2NyAzNDYgMjY2IDMzMCBaIiBmaWxsPSJ1cmwoI3BhZCkiIHN0cm9rZT0iIzI2MjYyNiIgc3Ryb2tlLXdpZHRoPSIzIi8+CiAgPGcgc3Ryb2tlPSIjOGE4YThhIiBzdHJva2Utd2lkdGg9IjMuNSIgc3Ryb2tlLWxpbmVjYXA9InJvdW5kIj4KICAgIDxwYXRoIGQ9Ik0yODggMjU4IEg0MTgiLz48cGF0aCBkPSJNMjg4IDI3NCBINDE4Ii8+PHBhdGggZD0iTTI4OCAyOTAgSDQxOCIvPjxwYXRoIGQ9Ik0yODggMzA2IEg0MTgiLz48cGF0aCBkPSJNMjg4IDMyMiBINDE4Ii8+CiAgPC9nPgogIDxwYXRoIGQ9Ik0yNzAgMjUwIFEyNzAgMjQyIDI4MCAyNDIgSDQyNiIgZmlsbD0ibm9uZSIgc3Ryb2tlPSIjZmZmZmZmIiBzdHJva2Utd2lkdGg9IjIuNSIgb3BhY2l0eT0iLjkiLz4KCiAgPCEtLSBwZWRhbCBkbyBhY2VsZXJhZG9yIChlc3RyZWl0bywgYXJ0aWN1bGFkbyBubyBwaXNvKSAtLT4KICA8cGF0aCBkPSJNNTAwIDE5NiBRNTAwIDE4MiA1MTQgMTgyIEg1NTIgUTU2NiAxODIgNTY2IDE5NiBMNTcwIDQyOCBRNTcwIDQ0NCA1NTQgNDQ0IEg1MTIgUTQ5NiA0NDQgNDk2IDQyOCBaIiBmaWxsPSJ1cmwoI3BhZCkiIHN0cm9rZT0iIzI2MjYyNiIgc3Ryb2tlLXdpZHRoPSIzIi8+CiAgPGcgc3Ryb2tlPSIjOGE4YThhIiBzdHJva2Utd2lkdGg9IjMiIHN0cm9rZS1saW5lY2FwPSJyb3VuZCI+CiAgICA8cGF0aCBkPSJNNTEyIDIwOCBINTU0Ii8+PHBhdGggZD0iTTUxMiAyMzQgSDU1NSIvPjxwYXRoIGQ9Ik01MTIgMjYwIEg1NTUiLz48cGF0aCBkPSJNNTEyIDI4NiBINTU2Ii8+PHBhdGggZD0iTTUxMyAzMTIgSDU1NiIvPjxwYXRoIGQ9Ik01MTMgMzM4IEg1NTciLz48cGF0aCBkPSJNNTEzIDM2NCBINTU3Ii8+PHBhdGggZD0iTTUxMyAzOTAgSDU1NyIvPjxwYXRoIGQ9Ik01MTQgNDE2IEg1NTciLz4KICA8L2c+CiAgPHBhdGggZD0iTTUwNiAxOTYgUTUwNiAxODggNTE2IDE4OCBINTUyIiBmaWxsPSJub25lIiBzdHJva2U9IiNmZmZmZmYiIHN0cm9rZS13aWR0aD0iMi41IiBvcGFjaXR5PSIuOSIvPgogIDxwYXRoIGQ9Ik01MDYgNDQ0IEg1NjAgVjQ1NiBRNTYwIDQ2MiA1NTIgNDYyIEg1MTQgUTUwNiA0NjIgNTA2IDQ1NiBaIiBmaWxsPSIjNmU2ZTZlIiBzdHJva2U9IiMzMzMiIHN0cm9rZS13aWR0aD0iMiIvPgoKICA8IS0tIHNldGEgcHJldGEgY3VydmEgYXBvbnRhbmRvIHBhcmEgbyBmcmVpbyAtLT4KICA8ZyB0cmFuc2Zvcm09InRyYW5zbGF0ZSgtMjIsMzIpIj4KICAgIDxwYXRoIGQ9Ik0xNTAgNTIwIFExNzAgNDIwIDI0NiAzNjAgTDIyOCAzNDIgTDMxOCAzMjIgTDI4NCA0MDggTDI2OCAzODYgUTIxMCA0NDAgMTk2IDUyOCBaIgogICAgICAgICAgZmlsbD0iIzAwMCIgc3Ryb2tlPSIjZmZmZmZmIiBzdHJva2Utd2lkdGg9IjciIHN0cm9rZS1saW5lam9pbj0icm91bmQiIHBhaW50LW9yZGVyPSJzdHJva2UiLz4KICA8L2c+Cjwvc3ZnPgo=" alt="Vista de cima dos pedais de um carro automático, com uma seta apontando para o pedal de freio" loading="lazy"></figure>
       <p>Com a chave dentro do carro, é só sentar e <b>pisar no freio</b>. Quando aparecer <b style="color:var(--feedback-color-check)">READY</b> no painel, o carro está ligado, mesmo em total silêncio.</p>
     </div>
 
@@ -794,6 +818,26 @@ secs.forEach(s=>s&&obs.observe(s));
 const t=document.getElementById('toTop');
 addEventListener('scroll',()=>{t.classList.toggle('show',scrollY>600)});
 t.addEventListener('click',()=>scrollTo({top:0,behavior:'smooth'}));
+
+// Menu de seções: setas, degradê e chip ativo sempre visível
+const chips=document.getElementById('chips'),wrap=document.getElementById('chipsWrap');
+function updChips(){
+  const max=chips.scrollWidth-chips.clientWidth;
+  wrap.classList.toggle('can-left',chips.scrollLeft>4);
+  wrap.classList.toggle('can-right',chips.scrollLeft<max-4);
+}
+chips.addEventListener('scroll',updChips,{passive:true});
+addEventListener('resize',updChips);
+updChips();
+if(wrap.classList.contains('can-right')){wrap.classList.add('hint');setTimeout(()=>wrap.classList.remove('hint'),2200);}
+document.getElementById('chipsR').addEventListener('click',()=>chips.scrollBy({left:chips.clientWidth*.7}));
+document.getElementById('chipsL').addEventListener('click',()=>chips.scrollBy({left:-chips.clientWidth*.7}));
+function showActive(a){
+  const target=a.offsetLeft-(chips.clientWidth-a.offsetWidth)/2;
+  chips.scrollTo({left:Math.max(0,target)});
+}
+new MutationObserver(ms=>ms.forEach(m=>{if(m.target.classList.contains('active'))showActive(m.target)}))
+  .observe(chips,{subtree:true,attributes:true,attributeFilter:['class']});
 </script>
 </body>
 </html>
